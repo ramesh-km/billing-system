@@ -6,7 +6,7 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-FROM node:lts-alpine
+FROM node:latest
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/build ./build
 COPY --from=build /usr/src/app/node_modules ./node_modules
