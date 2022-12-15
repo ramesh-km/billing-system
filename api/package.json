@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsnd --cls --respawn --exit-child --transpile-only --watch src/ src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prod-migrate": "npx prisma migrate deploy",
+    "start": "npm run prod-migrate && node build/index.js"
   },
   "keywords": [],
   "author": "",
