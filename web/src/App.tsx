@@ -1,7 +1,12 @@
-import NavbarSimple from "./components/Navbar";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/routes";
 
 function App() {
-  return <NavbarSimple />;
+  return <>
+    <RouterProvider router={router} />
+    
+  </>
+
 }
 
 export default App;

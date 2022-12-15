@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createStyles, Navbar, Text, Flex } from "@mantine/core";
+import {useNavigate, Link,Outlet } from "react-router-dom";
 
 import {
   IconClipboardList,
@@ -88,15 +89,16 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 const data = [
-  { link: "", label: "Items", icon: IconClipboardList },
-  { link: "", label: "Contacts", icon: IconAddressBook },
+  { link: "items", label: "Items", icon: IconClipboardList },
+  { link: "contacts", label: "Contacts", icon: IconAddressBook },
   { link: "", label: "Billing", icon: IconReceipt2 },
   { link: "", label: "Other Settings", icon: IconSettings },
 ];
 
-function NavbarSimple() {
+function MainLayout(): JSX.Element {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState("Billing");
+  const [active, setActive] = useState("Items");
+  const navigate = useNavigate()
 
   const links = data.map((item) => (
     <a
@@ -107,6 +109,7 @@ function NavbarSimple() {
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
+        navigate(`${item.link}`)
         setActive(item.label);
       }}
     >
@@ -116,28 +119,35 @@ function NavbarSimple() {
   ));
 
   return (
-    <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
-      <Navbar.Section grow>
-        <Flex className={classes.header} align="center" justify={"center"}>
-          <Text sx={{ fontSize: "1.5rem", fontWeight: 600 }}>
-            Billing System
-          </Text>
-        </Flex>
-        {links}
-      </Navbar.Section>
+    <Flex >
+      <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
+        <Navbar.Section grow>
+          <Flex className={classes.header} align="center" justify={"center"}>
+            <Text sx={{ fontSize: "1.5rem", fontWeight: 600 }}>
+              <Link to="/" style={{ textDecoration: "none", color: "blue" }}>
+                Billing System
+              </Link>
+            </Text>
+          </Flex>
+          {links}
+        </Navbar.Section>
 
-      <Navbar.Section className={classes.footer}>
-        <a
-          href="#"
-          className={classes.link}
-          onClick={(event) => event.preventDefault()}
-        >
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
-        </a>
-      </Navbar.Section>
-    </Navbar>
+        <Navbar.Section className={classes.footer}>
+          <a
+            href="#"
+            className={classes.link}
+            onClick={(event) => event.preventDefault()}
+          >
+            <IconLogout className={classes.linkIcon} stroke={1.5} />
+            <span>Logout</span>
+          </a>
+        </Navbar.Section>
+      </Navbar>
+      <div style={{ height: "100vh", width:'100%'}}>
+        <Outlet />
+      </div>
+    </Flex>
   );
 }
 
-export default NavbarSimple;
+export default MainLayout;
