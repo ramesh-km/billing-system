@@ -1,0 +1,21 @@
+
+POST http://localhost:8080/api/items
+Content-Type: application/json
+
+{
+  "name": "laptop",
+  "description": "laptop is a laptop",
+  "image": "https://google.com/image.jpg",
+  "price": 898,
+  "availableQuantity": 232,
+  "allowedMinQuantity": 2,
+  "allowedMaxQuantity": 5
+}
+
+###
+
+GET http://localhost:8080/api/items/1
+
+###
+
+DELETE  http://localhost:8080/api/items/1

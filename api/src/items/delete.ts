@@ -13,13 +13,19 @@ const deleteItemHandler: RequestHandler = async (req, res) => {
   }
 
   // Delete item from db
-  const data = await db.item.delete({
-    where: {
-      id: idResult.data,
-    },
-  });
-
-  return res.json(data)
+  try {
+    const data = await db.item.delete({
+      where: {
+        id: idResult.data,
+      },
+    });
+    return res.json(data);
+  } catch (error) {
+    return res.json({
+      message: "Error deleting item",
+      errors: error,
+    });
+  }
 };
 
 export default deleteItemHandler;

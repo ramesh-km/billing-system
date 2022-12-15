@@ -3,7 +3,7 @@ import db from "../lib/db";
 import { numberSchema } from "../lib/zod-schemas";
 
 const readItemHandler: RequestHandler = async (req, res) => {
-  const idResult = numberSchema.safeParse(req.params.id);
+  const idResult = numberSchema.safeParse(req.params.itemId);
 
   if (!idResult.success) {
     return res.json({
