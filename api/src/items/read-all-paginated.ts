@@ -26,7 +26,7 @@ const schema = z.object({
 
 // Offset (skip, limit/take) pagination
 // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#offset-pagination
-const readAllPaginatedHandler: RequestHandler = (req, res) => {
+const readAllPaginatedHandler: RequestHandler = async (req, res) => {
   const result = schema.safeParse(req.params);
   if (!result.success) {
     return res.json({
@@ -57,7 +57,7 @@ const readAllPaginatedHandler: RequestHandler = (req, res) => {
       }
     : {};
 
-  const data = db.item.findMany({
+  const data = await db.item.findMany({
     where,
     skip: page * size,
     take: size,

@@ -15,7 +15,7 @@ const schema = z.object({
 
 const updateItemHandler: RequestHandler = async (req, res) => {
   const result = schema.safeParse(req.body);
-  const idResult = numberSchema.safeParse(req.params.id);
+  const idResult = numberSchema.safeParse(req.params.itemId);
   if (!result.success || !idResult.success) {
     return res.json({
       message: "Invalid request body",
