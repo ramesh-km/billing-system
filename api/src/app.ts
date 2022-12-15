@@ -4,6 +4,7 @@ import helmet from "helmet";
 import itemsRouter from "./items/items.router";
 import customersRouter from "./customers/customers.router";
 import errorMiddleware from "./lib/error.middleware";
+import config from "./lib/config";
 
 const app = express();
 
@@ -11,6 +12,13 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
+
+// Healthcheck route
+app.get("/healthcheck", (req, res) =>
+  res.json({
+    env: config.NODE_ENV,
+  })
+);
 
 // Routers
 app.use("/api/items", itemsRouter);
