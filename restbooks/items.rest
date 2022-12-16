@@ -1,5 +1,5 @@
 
-POST http://localhost:8080/api/items
+POST https://billing-system-0s8q.onrender.com/api/items
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/items/3
+PUT https://billing-system-0s8q.onrender.com/api/items/3
 Content-Type: application/json
 
 {
@@ -30,14 +30,14 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/items/3
+GET https://billing-system-0s8q.onrender.com/api/items/3
 
 ###
 
-DELETE  http://localhost:8080/api/items/2
+DELETE  https://billing-system-0s8q.onrender.com/api/items/2
 
 ###
 
-GET  http://localhost:8080/api/items/paginated?size=5&page=0
+GET  https://billing-system-0s8q.onrender.com/api/items/paginated?size=5&page=0
 
 
