@@ -10,9 +10,9 @@ function CreateItem() {
   const navigate = useNavigate()
   const { mutateAsync } = useMutation(createItem)
 
-  const onFormSubmit = async (data) => {
+  const onFormSubmit = async (data:ItemData) => {
     await mutateAsync({ ...data })
-    navigate('/')
+    navigate('/items')
   }
   return (
     <>

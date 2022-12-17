@@ -1,29 +1,21 @@
 import { z } from "zod";
-import { useForm,Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Button,
-  Stack,
-  Text,
-  Textarea,
-  Flex,
-  Input,NumberInput
-} from "@mantine/core";
+import { Button, Stack, Textarea, Input, NumberInput } from "@mantine/core";
 import { IconSend } from "@tabler/icons";
 
 const ItemDataSchema = z.object({
   name: z.string().min(1, { message: "Item name is required" }),
   price: z.number().min(1, { message: "Item price is required" }),
   availableQuantity: z
-    .string()
+    .number()
     .min(1, { message: "Available Qty is required" }),
   allowedMinQuantity: z
-    .string()
+    .number()
     .min(1, { message: "Allowed min. quantity is 1" }),
   allowedMaxQuantity: z
-    .string()
+    .number()
     .max(5, { message: "Allowed max. quantity is 5" }),
-  image: z.any(),
   description: z.string(),
 });
 
@@ -32,21 +24,26 @@ export type ItemData = z.infer<typeof ItemDataSchema>;
 const resolver = zodResolver(ItemDataSchema);
 
 type ItemFormLayoutProps = {
-    defaultValues?: ItemData,
-    onFormSubmit: ItemData
-}
+  defaultValues?: ItemData;
+  onFormSubmit: (data: ItemData) => void;
+};
 
-function ItemFormLayout({defaultValues,onFormSubmit}: ItemFormLayoutProps) {
+function ItemFormLayout({ defaultValues, onFormSubmit }: ItemFormLayoutProps) {
   const {
-    register,control,
+    register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ItemData>({defaultValues, resolver, reValidateMode: "onChange" });
+  } = useForm<ItemData>({
+    defaultValues,
+    resolver,
+    reValidateMode: "onChange",
+  });
 
   console.log(errors);
 
-    const onSubmit = handleSubmit((data: ItemData) => {
-      onFormSubmit(data)
+  const onSubmit = handleSubmit((data: ItemData) => {
+    onFormSubmit(data);
     console.log(data);
     // const reader = new FileReader()
     // const output = reader.readAsDataURL(data.image[0]?.name)
@@ -65,28 +62,24 @@ function ItemFormLayout({defaultValues,onFormSubmit}: ItemFormLayoutProps) {
         </Input.Wrapper>
         <Input.Wrapper id="price" label="Price" error={errors.price?.message}>
           <Controller
-          control={control}
+            control={control}
             name="price"
             render={({ field }) => {
-              return (
-                <input
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                />
-              );
+              return <NumberInput {...field} />;
             }}
           />
-          {/* <Input id="price" placeholder="Eg: 10000" {...register("price")} /> */}
         </Input.Wrapper>
         <Input.Wrapper
           id="availableQuantity"
           label="Avl.Quantity"
           error={errors.availableQuantity?.message}
         >
-          <Input
-            id="availableQuantity"
-            placeholder="Eg: 140"
-            {...register("availableQuantity")}
+          <Controller
+            control={control}
+            name="availableQuantity"
+            render={({ field }) => {
+              return <NumberInput {...field} />;
+            }}
           />
         </Input.Wrapper>
         <Input.Wrapper
@@ -94,10 +87,12 @@ function ItemFormLayout({defaultValues,onFormSubmit}: ItemFormLayoutProps) {
           label="Min.Qty"
           error={errors.allowedMinQuantity?.message}
         >
-          <Input
-            id="allowedMinQuantity"
-            placeholder="Eg: 1"
-            {...register("allowedMinQuantity")}
+          <Controller
+            control={control}
+            name="allowedMinQuantity"
+            render={({ field }) => {
+              return <NumberInput {...field} />;
+            }}
           />
         </Input.Wrapper>
         <Input.Wrapper
@@ -105,14 +100,16 @@ function ItemFormLayout({defaultValues,onFormSubmit}: ItemFormLayoutProps) {
           label="Max.Qty"
           error={errors.allowedMaxQuantity?.message}
         >
-          <Input
-            id="allowedMaxQuantity"
-            placeholder="Eg: 5"
-            {...register("allowedMaxQuantity")}
+          <Controller
+            control={control}
+            name="allowedMaxQuantity"
+            render={({ field }) => {
+              return <NumberInput {...field} />;
+            }}
           />
         </Input.Wrapper>
 
-        <Stack spacing={0}>
+        {/* <Stack spacing={0}>
           <label htmlFor="image" style={{ fontSize: "1rem" }}>
             Image
           </label>
@@ -123,7 +120,7 @@ function ItemFormLayout({defaultValues,onFormSubmit}: ItemFormLayoutProps) {
             id="image"
             {...register("image")}
           />
-        </Stack>
+        </Stack> */}
         <Textarea
           placeholder="About the item"
           label="Description"
