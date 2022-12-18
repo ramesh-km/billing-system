@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllItems } from "../api";
-import { Flex, Text, Table, Title } from "@mantine/core";
+import { Flex, Text, Table, Title, Button } from "@mantine/core";
 import Item from "../components/Item";
+import { IconPlus } from "@tabler/icons";
+import { Link } from "react-router-dom";
+import { TableSort } from "../components/ItemsTable";
 
 function Items() {
   const { data, error, isLoading, isError } = useQuery({
@@ -21,21 +24,39 @@ function Items() {
     return null;
   }
 
+  const TableHeader = ({ children }: { children: React.ReactNode }) => (
+    <th style={{ textAlign: "center" }}>{children}</th>
+  );
+
   return (
     <Flex direction={"column"} p="lg">
+      <Button
+        sx={{ width:'150px' }}
+        variant="gradient"
+        gradient={{ from: "teal", to: "lime", deg: 105 }}
+      >
+        <Link
+          to="/create-item"
+          style={{ textDecoration: "none", color: "white",alignItems:'center',display:'flex' }}
+        >
+          <IconPlus />
+          Add Item
+        </Link>
+      </Button>
       <Title order={1} align="center" my="lg">
         Items
       </Title>
-      <Table>
+      <TableSort data={data} />
+      {/* <Table striped>
         <thead>
           <tr>
-            <th>Name</th>
-            <th> Price</th>
-            <th> Available Qty</th>
-            <th> Allowed min Qty</th>
-            <th> Allowed max Qty</th>
-            <th> Description</th>
-            <th></th>
+            <TableHeader> Name           </TableHeader>
+            <TableHeader> Price          </TableHeader>
+            <TableHeader> Available Qty  </TableHeader>
+            <TableHeader> Allowed min Qty</TableHeader>
+            <TableHeader> Allowed max Qty</TableHeader>
+            <TableHeader> Description    </TableHeader>
+            <TableHeader> Remove          </TableHeader>
           </tr>
         </thead>
         <tbody>
@@ -43,7 +64,7 @@ function Items() {
             <Item key={item.id} {...item} />
           ))}
         </tbody>
-      </Table>
+      </Table> */}
     </Flex>
   );
 }

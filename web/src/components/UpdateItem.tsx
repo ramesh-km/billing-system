@@ -4,6 +4,7 @@ import ItemFormLayout from "../layouts/ItemFormLayout";
 import { getItem, updateItem } from "../api";
 import { useParams, useNavigate } from "react-router-dom";
 import { ItemData } from "../layouts/ItemFormLayout";
+import BreadCrumb from "../layouts/BreadCrumb";
 
 function UpdateItem() {
   const { id } = useParams<{id: string}>();
@@ -36,13 +37,14 @@ function UpdateItem() {
   }
   return (
     <>
+      <BreadCrumb subTitle="Update Item" subTitlePath="/update-item" />
       <Text
-        pt="4rem"
+        p="2rem"
         sx={{ fontSize: "1.5rem", fontWeight: 600, textAlign: "center" }}
       >
         Update Item
       </Text>
-      <Flex justify="center" align="center" pt="4rem">
+      <Flex justify="center" align="center" >
         <ItemFormLayout defaultValues={data} onFormSubmit={onFormSubmit} />
       </Flex>
     </>

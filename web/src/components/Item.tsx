@@ -21,21 +21,31 @@ function Item(props: GetAllItems) {
     await mutateAsync(id);
     queryClient.invalidateQueries({ queryKey: ["items"] });
   }
+
+  type TableCellProps = {
+    cellWidth?: string;
+    children: React.ReactNode;
+  };
+
+  const TableCell = ({ cellWidth, children }: TableCellProps) => (
+    <td style={{ textAlign: "center", width: cellWidth }}>{children}</td>
+  );
+
   return (
     <tr key={id}>
-      <td>
+      <TableCell>
         <Link to={`/update-item/${id}`}>{name}</Link>
-      </td>
-      <td>{price}</td>
-      <td>{availableQuantity}</td>
-      <td>{allowedMinQuantity}</td>
-      <td>{allowedMaxQuantity}</td>
-      <td>{description}</td>
-      <td>
+      </TableCell>
+      <TableCell>{price}</TableCell>
+      <TableCell>{availableQuantity}</TableCell>
+      <TableCell>{allowedMinQuantity}</TableCell>
+      <TableCell>{allowedMaxQuantity}</TableCell>
+      <TableCell>{description}</TableCell>
+      <TableCell cellWidth="90px">
         <Button variant="outline" size="xs" onClick={remove}>
           Remove
         </Button>
-      </td>
+      </TableCell>
     </tr>
   );
 }
