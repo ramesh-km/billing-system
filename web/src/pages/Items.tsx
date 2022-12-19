@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery,useQueryClient } from "@tanstack/react-query";
 import { getAllItems } from "../api";
 import Item from "../components/Item";
 import { Link } from "react-router-dom";
@@ -52,17 +52,15 @@ const useStyles = createStyles((theme) => ({
 interface ThProps {
   children: React.ReactNode;
   reversed?: boolean;
-  sorted: boolean;
   onSort(): void;
 }
 
-function Th({ children, reversed, sorted, onSort }: ThProps) {
+function Th({ children, reversed, onSort }: ThProps) {
   const { classes } = useStyles();
-  const Icon = sorted
-    ? reversed
-      ? IconChevronUp
-      : IconChevronDown
-    : IconSelector;
+  // const Icon = 
+  //     ? IconChevronUp
+  //     : IconChevronDown
+  //   : IconSelector;
   return (
     <th className={classes.th}>
       <UnstyledButton onClick={onSort} className={classes.control}>
@@ -71,7 +69,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
             {children}
           </Text>
           <Center className={classes.icon}>
-            <Icon size={14} stroke={1.5} />
+            {/* <Icon size={14} stroke={1.5} /> */}
           </Center>
         </Group>
       </UnstyledButton>
@@ -80,11 +78,11 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 function Items() {
+  const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
-  const [value, setValue] = useState("");
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [sorting, setSorting] = useState("");
+  const [value, setValue] = useState<string | undefined>(undefined);
+  const [search, setSearch] = useState();
+  const [sorting, setSorting] = useState("updatedAt");
 
   const { isLoading, isError, error, data, isFetching, isPreviousData } =
     useQuery({
@@ -92,11 +90,32 @@ function Items() {
       queryFn: () =>
         getAllItems({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
+      staleTime: 5000,
     });
+
+  // Prefetch the next page!
+  useEffect(() => {
+    //@ts-ignore
+    if (!isPreviousData && data?.hasMore) {
+      queryClient.prefetchQuery({
+        queryKey: ["items", page + 1],
+        queryFn: () =>
+          getAllItems({
+            page: page + 1,
+            sortBy: sorting,
+            nameOrDescriptionMatch: search,
+          }),
+      });
+    }
+  }, [data, isPreviousData, page, queryClient]);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      setSearch(value);
+      if (value !== undefined) {
+        setSearch(undefined);
+      } else {
+        setSearch(value);
+      }
     }, 500);
 
     return () => {
@@ -160,39 +179,18 @@ function Items() {
         >
           <thead>
             <tr>
-              <Th sorted={sortBy === "name"} onSort={() => setSorting("name")}>
-                Name
-              </Th>
-              <Th
-                sorted={sortBy === "price"}
-                onSort={() => setSorting("price")}
-              >
-                Price
-              </Th>
-              <Th
-                sorted={sortBy === "availableQuantity"}
-                onSort={() => setSorting("availableQuantity")}
-              >
+              <Th onSort={() => setSorting("name")}>Name</Th>
+              <Th onSort={() => setSorting("price")}>Price</Th>
+              <Th onSort={() => setSorting("availableQuantity")}>
                 Available Qty
               </Th>
-              <Th
-                sorted={sortBy === "allowedMinQuantity"}
-                onSort={() => setSorting("allowedMinQuantity")}
-              >
+              <Th onSort={() => setSorting("allowedMinQuantity")}>
                 Allowed Min Qty
               </Th>
-              <Th
-                sorted={sortBy === "allowedMaxQuantity"}
-                onSort={() => setSorting("allowedMaxQuantity")}
-              >
+              <Th onSort={() => setSorting("allowedMaxQuantity")}>
                 Allowed Max Qty
               </Th>
-              <Th
-                sorted={sortBy === "description"}
-                onSort={() => setSorting("description")}
-              >
-                Description
-              </Th>
+              <Th onSort={() => setSorting("description")}>Description</Th>
             </tr>
           </thead>
           <tbody>
@@ -219,11 +217,8 @@ function Items() {
         <button
           onClick={() => {
             //@ts-ignore
-            if (!isPreviousData && data.hasMore) {
-              setPage((old) => old + 1);
-            }
-          }}
-          //@ts-ignore
+            setPage((old) => (data?.hasMore ? old + 1 : old));
+          }} //@ts-ignore
           disabled={isPreviousData || !data?.hasMore}
         >
           Next Page

@@ -10,15 +10,16 @@ export type GetAllItems = ItemData & {
 };
 
 
-// GET  http://localhost:8080/api/items/paginated?size=5&page=0
+// GET  {{baseUrl}}/items/paginated?size=3&page=1&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
+
 type getAllItemsProps = {
   page: number;
   sortBy: string;
-  nameOrDescriptionMatch: string;
+  nameOrDescriptionMatch: undefined | string;
 };
 
-export async function getAllItems({page,sortBy,nameOrDescriptionMatch
-}:getAllItemsProps) {
+export async function getAllItems({ page, sortBy, nameOrDescriptionMatch }
+:getAllItemsProps) {
   try {
     const response = await axiosInstance.get<GetAllItems[]>(
       `/items/paginated?size=5`,
