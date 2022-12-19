@@ -8,7 +8,7 @@
     "dev": "tsnd --cls --respawn --exit-child --transpile-only --watch src/ src/index.ts",
     "build": "tsc",
     "prod-migrate": "npx prisma migrate deploy",
-    "start": "npm run prod-migrate && node build/index.js",
+    "start": "npm run prod-migrate && node build/src/index.js",
     "seed": "ts-node prisma/seed.ts",
     "try": "ts-node src/try.ts"
   },
