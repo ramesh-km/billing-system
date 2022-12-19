@@ -8,12 +8,15 @@
     "dev": "tsnd --cls --respawn --exit-child --transpile-only --watch src/ src/index.ts",
     "build": "tsc",
     "prod-migrate": "npx prisma migrate deploy",
-    "start": "npm run prod-migrate && node build/index.js"
+    "start": "npm run prod-migrate && node build/index.js",
+    "seed": "ts-node prisma/seed.ts",
+    "try": "ts-node src/try.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/morgan": "^1.9.3",

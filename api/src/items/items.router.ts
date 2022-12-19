@@ -5,7 +5,9 @@ import readItemHandler from "./read";
 import readAllPaginatedHandler from "./read-all-paginated";
 import updateItemHandler from "./update";
 
-export const itemsRouter = Router();
+export const itemsRouter = Router({
+  mergeParams: true
+});
 
 itemsRouter.get("/paginated", readAllPaginatedHandler);
 itemsRouter.route("/").post(createItemHandler);
