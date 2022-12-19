@@ -27,7 +27,7 @@ const schema = z.object({
 // Offset (skip, limit/take) pagination
 // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#offset-pagination
 const readAllPaginatedHandler: RequestHandler = async (req, res) => {
-  const result = schema.safeParse(req.params);
+  const result = schema.safeParse(req.query);
   if (!result.success) {
     return res.json({
       message: "Invalid request params",

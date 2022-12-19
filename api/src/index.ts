@@ -7,7 +7,7 @@ async function main() {
   signale.info("Database URL:", config.DATABASE_URL);
 
   if (config.NODE_ENV === "development") {
-    console.clear();
+    // console.clear();
   }
 
   app.listen(config.PORT, () => {
