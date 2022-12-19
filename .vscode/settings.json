@@ -1,0 +1,7 @@
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "https://billing-system-0s8q.onrender.com/api"
+    }
+  }
+}
