@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeItem } from "../api";
 import { GetAllItems } from "../api";
 import { Button } from "@mantine/core";
+import {IconTrashX} from '@tabler/icons'
 
 function Item(props: GetAllItems) {
   const {
@@ -15,7 +16,7 @@ function Item(props: GetAllItems) {
     description,
   } = props;
   const queryClient = useQueryClient();
-  const { mutateAsync } = useMutation(removeItem);
+  const { mutateAsync, isLoading:isRemoveLoading } = useMutation(removeItem);
 
   async function remove() {
     await mutateAsync(id);
@@ -28,7 +29,7 @@ function Item(props: GetAllItems) {
   };
 
   const TableCell = ({ cellWidth, children }: TableCellProps) => (
-    <td style={{ textAlign: "center", width: cellWidth }}>{children}</td>
+    <td style={{ width: cellWidth }}>{children}</td>
   );
 
   return ( 
@@ -42,8 +43,8 @@ function Item(props: GetAllItems) {
       <TableCell>{allowedMaxQuantity}</TableCell>
       <TableCell>{description}</TableCell>
       <TableCell cellWidth="90px">
-        <Button variant="outline" size="xs" onClick={remove}>
-          Remove
+        <Button p={0} variant="outline" sx={{width:'35px',height:'35px'}} onClick={remove}>
+          <IconTrashX color="gray"/>
         </Button>
       </TableCell>
     </tr>

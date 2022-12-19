@@ -13,9 +13,7 @@ const ItemDataSchema = z.object({
   allowedMinQuantity: z
     .number()
     .min(1, { message: "Allowed min. quantity is 1" }),
-  allowedMaxQuantity: z
-    .number()
-    .max(5, { message: "Allowed max. quantity is 5" }),
+  allowedMaxQuantity: z.number(),
   description: z.string(),
 });
 
@@ -40,7 +38,7 @@ function ItemFormLayout({ defaultValues, onFormSubmit }: ItemFormLayoutProps) {
     reValidateMode: "onChange",
   });
 
-  console.log(errors);
+  console.log("🚀 ~ file: ItemFormLayout.tsx:42 ~ ItemFormLayout ~ errors", errors)
 
   const onSubmit = handleSubmit((data: ItemData) => {
     onFormSubmit(data);

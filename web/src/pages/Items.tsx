@@ -1,8 +1,9 @@
-import { useQuery,useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllItems } from "../api";
 import Item from "../components/Item";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useDebouncedState } from "@mantine/hooks";
 import {
   Flex,
   Text,
@@ -15,15 +16,11 @@ import {
   Group,
   Center,
   TextInput,
+  Pagination,
+  Paper,
 } from "@mantine/core";
 
-import {
-  IconSelector,
-  IconChevronDown,
-  IconChevronUp,
-  IconSearch,
-  IconPlus,
-} from "@tabler/icons";
+import { IconSelector, IconSearch, IconPlus } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -57,10 +54,7 @@ interface ThProps {
 
 function Th({ children, reversed, onSort }: ThProps) {
   const { classes } = useStyles();
-  // const Icon = 
-  //     ? IconChevronUp
-  //     : IconChevronDown
-  //   : IconSelector;
+  const Icon = IconSelector;
   return (
     <th className={classes.th}>
       <UnstyledButton onClick={onSort} className={classes.control}>
@@ -69,7 +63,7 @@ function Th({ children, reversed, onSort }: ThProps) {
             {children}
           </Text>
           <Center className={classes.icon}>
-            {/* <Icon size={14} stroke={1.5} /> */}
+            <Icon size={14} stroke={1.5} />
           </Center>
         </Group>
       </UnstyledButton>
@@ -80,13 +74,16 @@ function Th({ children, reversed, onSort }: ThProps) {
 function Items() {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
-  const [value, setValue] = useState<string | undefined>(undefined);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useDebouncedState<undefined | string>(
+    undefined,
+    500
+  );
+
   const [sorting, setSorting] = useState("updatedAt");
 
   const { isLoading, isError, error, data, isFetching, isPreviousData } =
     useQuery({
-      queryKey: ["items", page],
+      queryKey: ["items", page, search, sorting],
       queryFn: () =>
         getAllItems({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
@@ -107,24 +104,10 @@ function Items() {
           }),
       });
     }
-  }, [data, isPreviousData, page, queryClient]);
-
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (value !== undefined) {
-        setSearch(undefined);
-      } else {
-        setSearch(value);
-      }
-    }, 500);
-
-    return () => {
-      clearTimeout(debounceTimeout);
-    };
-  }, [value]);
+  }, [data, isPreviousData, page, queryClient, search]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setSearch(event.target.value);
   };
 
   if (isLoading) {
@@ -138,29 +121,8 @@ function Items() {
   if (!data) {
     return null;
   }
-
-  const rows = data.map((item) => <Item key={item.id} {...item} />);
-
   return (
     <Flex direction={"column"} p="lg">
-      <Button
-        sx={{ width: "150px" }}
-        variant="gradient"
-        gradient={{ from: "teal", to: "lime", deg: 105 }}
-      >
-        <Link
-          to="/create-item"
-          style={{
-            textDecoration: "none",
-            color: "white",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          <IconPlus />
-          Add Item
-        </Link>
-      </Button>
       <Title order={1} align="center" my="lg">
         Items
       </Title>
@@ -169,7 +131,7 @@ function Items() {
           placeholder="Search by any field"
           mb="md"
           icon={<IconSearch size={14} stroke={1.5} />}
-          value={value}
+          defaultValue={search}
           onChange={handleSearchChange}
         />
         <Table
@@ -191,39 +153,49 @@ function Items() {
                 Allowed Max Qty
               </Th>
               <Th onSort={() => setSorting("description")}>Description</Th>
+              <th>Remove</th>
             </tr>
           </thead>
           <tbody>
-            {rows.length > 0 ? (
-              rows
+            {data?.data?.length > 0 ? (
+              data.data.map((item) => <Item key={item.id} {...item} />)
             ) : (
               <tr>
-                <td colSpan={Object.keys(data[0]).length}>
+                <td colSpan={6}>
+                  {" "}
                   <Text weight={500} align="center">
                     Nothing found
                   </Text>
-                </td>
+                </td>{" "}
               </tr>
             )}
           </tbody>
         </Table>
-        <button
-          onClick={() => setPage((old) => Math.max(old - 1, 0))}
-          disabled={page === 0}
-        >
-          Previous Page
-        </button>{" "}
-        <span>Current Page: {page + 1}</span>
-        <button
-          onClick={() => {
-            //@ts-ignore
-            setPage((old) => (data?.hasMore ? old + 1 : old));
-          }} //@ts-ignore
-          disabled={isPreviousData || !data?.hasMore}
-        >
-          Next Page
-        </button>
-        {isFetching ? <span> Loading...</span> : null}
+        <Button variant="outline">
+          <Link
+            to="/create-item"
+            style={{
+              textDecoration: "none",
+              display: 'flex',
+              alignItems:'center'
+              
+            }}
+          >
+            <IconPlus />
+            Add Item
+          </Link>
+        </Button>
+        <Center py="2rem">
+          {data?.total / 10 > 1 ? (
+            <Pagination
+              total={data.total / 10}
+              page={page}
+              onChange={setPage}
+              initialPage={0}
+            />
+          ) : null}
+          {isFetching ? <span> Loading...</span> : null}
+        </Center>
       </ScrollArea>
     </Flex>
   );
