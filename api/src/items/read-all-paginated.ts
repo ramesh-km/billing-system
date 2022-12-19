@@ -57,6 +57,8 @@ const readAllPaginatedHandler: RequestHandler = async (req, res) => {
       }
     : {};
 
+  const total = await db.item.count({ where });
+
   const data = await db.item.findMany({
     where,
     skip: page * size,
@@ -66,7 +68,7 @@ const readAllPaginatedHandler: RequestHandler = async (req, res) => {
     },
   });
 
-  return res.json(data);
+  return res.json({ data, total });
 };
 
 export default readAllPaginatedHandler;

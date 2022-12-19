@@ -38,6 +38,5 @@ DELETE  {{baseUrl}}/items/2
 
 ###
 
-GET  {{baseUrl}}/items/paginated?size=30&page=1&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
-
+GET  {{baseUrl}}/items/paginated?size=30&page=0&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
 
