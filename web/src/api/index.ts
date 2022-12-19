@@ -6,12 +6,30 @@ export type GetAllItems = ItemData & {
   deletedAt: string;
   updatedAt: string;
   image: string;
-  id: number;
+  id: number; 
 };
 
-export async function getAllItems() {
+
+// GET  http://localhost:8080/api/items/paginated?size=5&page=0
+type getAllItemsProps = {
+  page: number;
+  sortBy: string;
+  nameOrDescriptionMatch: string;
+};
+
+export async function getAllItems({page,sortBy,nameOrDescriptionMatch
+}:getAllItemsProps) {
   try {
-    const response = await axiosInstance.get<GetAllItems[]>("/items/paginated");
+    const response = await axiosInstance.get<GetAllItems[]>(
+      `/items/paginated?size=5`,
+      {
+        params: {
+          page,
+          sortBy,
+          nameOrDescriptionMatch,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log(error);

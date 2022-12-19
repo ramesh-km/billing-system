@@ -31,7 +31,7 @@ function Item(props: GetAllItems) {
     <td style={{ textAlign: "center", width: cellWidth }}>{children}</td>
   );
 
-  return (
+  return ( 
     <tr key={id}>
       <TableCell>
         <Link to={`/update-item/${id}`}>{name}</Link>
