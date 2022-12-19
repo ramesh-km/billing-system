@@ -1,5 +1,5 @@
 
-POST https://billing-system-0s8q.onrender.com/api/items
+POST {{baseUrl}}/items
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-PUT https://billing-system-0s8q.onrender.com/api/items/3
+PUT {{baseUrl}}/items/3
 Content-Type: application/json
 
 {
@@ -30,14 +30,14 @@ Content-Type: application/json
 
 ###
 
-GET https://billing-system-0s8q.onrender.com/api/items/3
+GET {{baseUrl}}/items/3
 
 ###
 
-DELETE  https://billing-system-0s8q.onrender.com/api/items/2
+DELETE  {{baseUrl}}/items/2
 
 ###
 
-GET  https://billing-system-0s8q.onrender.com/api/items/paginated?size=5&page=0
+GET  {{baseUrl}}/items/paginated?size=3&page=1&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
 
 
