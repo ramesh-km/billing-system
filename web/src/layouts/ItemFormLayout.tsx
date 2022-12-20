@@ -23,10 +23,10 @@ const resolver = zodResolver(ItemDataSchema);
 
 type ItemFormLayoutProps = {
   defaultValues?: ItemData;
-  onFormSubmit: (data: ItemData) => void;
+  onItemSubmit: (data: ItemData) => void;
 };
 
-function ItemFormLayout({ defaultValues, onFormSubmit }: ItemFormLayoutProps) {
+function ItemFormLayout({ defaultValues, onItemSubmit }: ItemFormLayoutProps) {
   const {
     register,
     control,
@@ -41,7 +41,7 @@ function ItemFormLayout({ defaultValues, onFormSubmit }: ItemFormLayoutProps) {
   console.log("🚀 ~ file: ItemFormLayout.tsx:42 ~ ItemFormLayout ~ errors", errors)
 
   const onSubmit = handleSubmit((data: ItemData) => {
-    onFormSubmit(data);
+    onItemSubmit(data);
     console.log(data);
     // const reader = new FileReader()
     // const output = reader.readAsDataURL(data.image[0]?.name)

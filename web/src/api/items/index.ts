@@ -1,19 +1,18 @@
-import axiosInstance from "../lib/http-client";
-import { ItemData } from "../layouts/ItemFormLayout";
+import axiosInstance from "../../lib/http-client";
+import { ItemData } from "../../layouts/ItemFormLayout";
 
 export type GetAllItems = ItemData & {
   createdAt: string;
   deletedAt: string;
   updatedAt: string;
   image: string;
-  id: number; 
+  id: number;
 };
 
 export type DataWithTotal = {
-  data: GetAllItems[],
-  total: number
-}
- 
+  data: GetAllItems[];
+  total: number;
+};
 
 // GET  {{baseUrl}}/items/paginated?size=3&page=1&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
 
@@ -23,8 +22,11 @@ type getAllItemsProps = {
   nameOrDescriptionMatch: undefined | string;
 };
 
-export async function getAllItems({ page, sortBy, nameOrDescriptionMatch }
-  : getAllItemsProps) {
+export async function getAllItems({
+  page,
+  sortBy,
+  nameOrDescriptionMatch,
+}: getAllItemsProps) {
   try {
     const response = await axiosInstance.get<DataWithTotal>(
       `/items/paginated?size=10`,

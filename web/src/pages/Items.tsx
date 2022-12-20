@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllItems } from "../api";
+import { getAllItems } from "../api/items";
 import Item from "../components/Item";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -176,9 +176,8 @@ function Items() {
             to="/create-item"
             style={{
               textDecoration: "none",
-              display: 'flex',
-              alignItems:'center'
-              
+              display: "flex",
+              alignItems: "center",
             }}
           >
             <IconPlus />

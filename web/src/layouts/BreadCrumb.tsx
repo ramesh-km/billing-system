@@ -1,16 +1,20 @@
 import { Breadcrumbs, Anchor } from "@mantine/core";
 
 type BreadCrumbProps = {
+  title: string;
+  titlePath: string;
   subTitle: string;
   subTitlePath: string;
 };
 
 function BreadCrumb({
+  title,
+  titlePath,
   subTitle,
   subTitlePath,
 }: BreadCrumbProps) {
   const items = [
-    { title: 'Items', href: '/items' },
+    { title, href: titlePath },
     { title: subTitle, href: subTitlePath },
   ].map((item, index) => (
     <Anchor href={item.href} key={index}>

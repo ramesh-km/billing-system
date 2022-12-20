@@ -1,6 +1,6 @@
 import { Flex, Text } from "@mantine/core";
 import ItemFormLayout from "../layouts/ItemFormLayout";
-import { createItem } from "../api";
+import { createItem } from "../api/items";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { ItemData } from "../layouts/ItemFormLayout";
@@ -16,7 +16,7 @@ function CreateItem() {
   };
   return (
     <>
-      <BreadCrumb subTitle="Create Item" subTitlePath="/create-item" />
+      <BreadCrumb title='Items' titlePath="/items" subTitle="Create Item" subTitlePath="/create-item" />
       <Text
         p="2rem"
         sx={{ fontSize: "1.5rem", fontWeight: 600, textAlign: "center" }}
@@ -24,7 +24,7 @@ function CreateItem() {
         Create Item
       </Text>
       <Flex justify="center" align="center">
-        <ItemFormLayout onFormSubmit={onFormSubmit} />
+        <ItemFormLayout onItemSubmit={onFormSubmit} />
       </Flex>
     </>
   );

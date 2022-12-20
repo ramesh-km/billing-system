@@ -1,26 +1,19 @@
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeItem } from "../api/items";
-import { GetAllItems } from "../api/items";
+import { removeContact } from "../api/contacts";
+import { GetAllContacts } from "../api/contacts";
 import { Button } from "@mantine/core";
 import { IconTrashX } from "@tabler/icons";
 
-function Item(props: GetAllItems) {
-  const {
-    id,
-    name,
-    price,
-    availableQuantity,
-    allowedMinQuantity,
-    allowedMaxQuantity,
-    description,
-  } = props;
+function Contact(props: GetAllContacts) {
+  const { id, name, email, phone, address } = props;
   const queryClient = useQueryClient();
-  const { mutateAsync, isLoading: isRemoveLoading } = useMutation(removeItem);
+  const { mutateAsync } =
+    useMutation(removeContact);
 
   async function remove() {
     await mutateAsync(id);
-    queryClient.invalidateQueries({ queryKey: ["items"] });
+    queryClient.invalidateQueries({ queryKey: ["contacts"] });
   }
 
   type TableCellProps = {
@@ -35,13 +28,11 @@ function Item(props: GetAllItems) {
   return (
     <tr key={id}>
       <TableCell>
-        <Link to={`/update-item/${id}`}>{name}</Link>
+        <Link to={`/update-contact/${id}`}>{name}</Link>
       </TableCell>
-      <TableCell>{price}</TableCell>
-      <TableCell>{availableQuantity}</TableCell>
-      <TableCell>{allowedMinQuantity}</TableCell>
-      <TableCell>{allowedMaxQuantity}</TableCell>
-      <TableCell>{description}</TableCell>
+      <TableCell>{email}</TableCell>
+      <TableCell>{phone}</TableCell>
+      <TableCell>{address}</TableCell>
       <TableCell cellWidth="90px">
         <Button
           p={0}
@@ -56,4 +47,4 @@ function Item(props: GetAllItems) {
   );
 }
 
-export default Item;
+export default Contact;
