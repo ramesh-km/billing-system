@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllContacts } from "../api/contacts";
-import Contact from "../components/Contact";
+import { getAllCustomers } from "../api/customers";
+import Customer from "../components/Customer";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDebouncedState } from "@mantine/hooks";
@@ -69,7 +69,7 @@ function Th({ children, onSort }: ThProps) {
   );
 }
 
-function Contacts() {
+function Customers() {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useDebouncedState<undefined | string>(
@@ -80,9 +80,9 @@ function Contacts() {
 
   const { isLoading, isError, error, data, isFetching, isPreviousData } =
     useQuery({
-      queryKey: ["contacts", page, search, sorting],
+      queryKey: ["customers", page, search, sorting],
       queryFn: () =>
-        getAllContacts({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
+        getAllCustomers({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
       staleTime: 5000,
     });
@@ -92,9 +92,9 @@ function Contacts() {
     //@ts-ignore
     if (!isPreviousData && data?.hasMore) {
       queryClient.prefetchQuery({
-        queryKey: ["contacts", page + 1],
+        queryKey: ["customers", page + 1],
         queryFn: () =>
-          getAllContacts({
+          getAllCustomers({
             page: page + 1,
             sortBy: sorting,
             nameOrDescriptionMatch: search,
@@ -121,7 +121,7 @@ function Contacts() {
   return (
     <Flex direction={"column"} p="lg">
       <Title order={1} align="center" my="lg">
-        Contacts
+        Customers
       </Title>
       <ScrollArea>
         <TextInput
@@ -147,8 +147,8 @@ function Contacts() {
           </thead>
           <tbody>
             {data?.data?.length > 0 ? (
-              data.data.map((contact) => (
-                <Contact key={contact.id} {...contact} />
+              data.data.map((customer) => (
+                <Customer key={customer.id} {...customer} />
               ))
             ) : (
               <tr>
@@ -172,7 +172,7 @@ function Contacts() {
             }}
           >
             <IconPlus />
-            Add Contact
+            Add Customer
           </Link>
         </Button>
         <Center py="2rem">
@@ -191,4 +191,4 @@ function Contacts() {
   );
 }
 
-export default Contacts;
+export default Customers;

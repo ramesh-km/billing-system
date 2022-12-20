@@ -1,25 +1,6 @@
 import axiosInstance from "../../lib/http-client";
+import { DataWithTotal, GetAllItemsProps } from "../../types/items";
 import { ItemData } from "../../layouts/ItemFormLayout";
-
-export type GetAllItems = ItemData & {
-  createdAt: string;
-  deletedAt: string;
-  updatedAt: string;
-  image: string;
-  id: number;
-};
-
-export type DataWithTotal = {
-  data: GetAllItems[];
-  total: number;
-};
-
-
-type GetAllItemsProps = {
-  page: number;
-  sortBy: string;
-  nameOrDescriptionMatch: undefined | string;
-};
 
 export async function getAllItems({
   page,
@@ -39,17 +20,16 @@ export async function getAllItems({
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ file: items/index.ts:24 ~ error", error);
   }
 }
 
-export async function getItem({ queryKey }: any) {
-  const [_key, { id }] = queryKey;
+export async function getItem(id: undefined | string) {
   try {
     const response = await axiosInstance.get(`/items/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ file: items/index.ts:34 ~ getItem ~ error", error);
   }
 }
 
@@ -57,7 +37,7 @@ export async function createItem({ ...data }: ItemData) {
   try {
     const response = await axiosInstance.post("/items", { ...data });
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ file: items/index.ts:42 ~ createItem ~ error", error);
   }
 }
 
@@ -71,15 +51,15 @@ export async function updateItem({
   try {
     const response = await axiosInstance.put(`/items/${id}`, { ...formData });
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ file: items/index.ts:56 ~ error", error);
   }
 }
 
 export async function removeItem(id: number) {
   try {
-    const response = axiosInstance.delete(`/items/${id}`);
+    await axiosInstance.delete(`/items/${id}`);
   } catch (error) {
-    console.log(error);
+    console.log("🚀 ~ file: items/index.ts:64 ~ removeItem ~ error", error);
   }
   return true;
 }

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeItem } from "../api/items";
-import { GetAllItems } from "../api/items";
+import { GetAllItems } from "../types/items";
 import { Button } from "@mantine/core";
 import { IconTrashX } from "@tabler/icons";
 

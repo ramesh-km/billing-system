@@ -5,7 +5,7 @@ import { Button, Stack, Textarea, Input, NumberInput } from "@mantine/core";
 import { IconSend } from "@tabler/icons";
 
 const ItemDataSchema = z.object({
-  name: z.string().min(1, { message: "Item name is required" }),
+  name: z.string().max(50, { message: "Item name is required" }),
   price: z.number().min(1, { message: "Item price is required" }),
   availableQuantity: z
     .number()
@@ -13,8 +13,11 @@ const ItemDataSchema = z.object({
   allowedMinQuantity: z
     .number()
     .min(1, { message: "Allowed min. quantity is 1" }),
-  allowedMaxQuantity: z.number(),
-  description: z.string(),
+  allowedMaxQuantity: z
+    .number()
+    .max(10, { message: "Allowed max quantity is 10" })
+    .optional(),
+  description: z.string().max(400, { message: "Add description" }).optional(),
 });
 
 export type ItemData = z.infer<typeof ItemDataSchema>;
@@ -38,7 +41,10 @@ function ItemFormLayout({ defaultValues, onItemSubmit }: ItemFormLayoutProps) {
     reValidateMode: "onChange",
   });
 
-  console.log("🚀 ~ file: ItemFormLayout.tsx:42 ~ ItemFormLayout ~ errors", errors)
+  console.log(
+    "🚀 ~ file: ItemFormLayout.tsx:42 ~ ItemFormLayout ~ errors",
+    errors
+  );
 
   const onSubmit = handleSubmit((data: ItemData) => {
     onItemSubmit(data);

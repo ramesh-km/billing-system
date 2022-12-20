@@ -10,8 +10,8 @@ function UpdateItem() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data, error, isLoading, isError } = useQuery(
-    ["book", { id }],
-    getItem
+    ["book",id],
+    ()=> getItem(id)
   );
   const { mutateAsync } = useMutation(updateItem);
 

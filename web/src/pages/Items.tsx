@@ -88,7 +88,7 @@ function Items() {
         getAllItems({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
       staleTime: 5000,
-    });
+    }); 
 
   // Prefetch the next page!
   useEffect(() => {

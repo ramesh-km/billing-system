@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeContact } from "../api/contacts";
-import { GetAllContacts } from "../api/contacts";
+import { removeCustomer } from "../api/customers";
+import { GetAllCustomers } from "../types/customers";
 import { Button } from "@mantine/core";
 import { IconTrashX } from "@tabler/icons";
 
-function Contact(props: GetAllContacts) {
+function Customer(props: GetAllCustomers) {
   const { id, name, email, phone, address } = props;
   const queryClient = useQueryClient();
-  const { mutateAsync } =
-    useMutation(removeContact);
+  const { mutateAsync } = useMutation(removeCustomer);
 
   async function remove() {
     await mutateAsync(id);
-    queryClient.invalidateQueries({ queryKey: ["contacts"] });
+    queryClient.invalidateQueries({ queryKey: ["customers"] });
   }
 
   type TableCellProps = {
@@ -28,7 +27,7 @@ function Contact(props: GetAllContacts) {
   return (
     <tr key={id}>
       <TableCell>
-        <Link to={`/update-contact/${id}`}>{name}</Link>
+        <Link to={`/update-customer/${id}`}>{name}</Link>
       </TableCell>
       <TableCell>{email}</TableCell>
       <TableCell>{phone}</TableCell>
@@ -47,4 +46,4 @@ function Contact(props: GetAllContacts) {
   );
 }
 
-export default Contact;
+export default Customer;

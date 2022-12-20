@@ -90,7 +90,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: "items", label: "Items", icon: IconClipboardList },
-  { link: "contacts", label: "Contacts", icon: IconAddressBook },
+  { link: "customers", label: "Customers", icon: IconAddressBook },
   { link: "", label: "Billing", icon: IconReceipt2 },
   { link: "", label: "Other Settings", icon: IconSettings },
 ];
