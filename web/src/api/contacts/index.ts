@@ -13,7 +13,7 @@ export type DataWithTotal = {
   total: number;
 };
 
-type getAllContactsProps = {
+type GetAllContactsProps = {
   page: number;
   sortBy: string;
   nameOrDescriptionMatch: undefined | string;
@@ -23,7 +23,7 @@ export async function getAllContacts({
   page,
   sortBy,
   nameOrDescriptionMatch,
-}: getAllContactsProps) {
+}: GetAllContactsProps) {
   try {
     const response = await axiosInstance.get<DataWithTotal>(
       `/contacts/paginated?size=10`,

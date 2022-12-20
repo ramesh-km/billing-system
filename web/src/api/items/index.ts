@@ -14,9 +14,8 @@ export type DataWithTotal = {
   total: number;
 };
 
-// GET  {{baseUrl}}/items/paginated?size=3&page=1&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
 
-type getAllItemsProps = {
+type GetAllItemsProps = {
   page: number;
   sortBy: string;
   nameOrDescriptionMatch: undefined | string;
@@ -26,7 +25,7 @@ export async function getAllItems({
   page,
   sortBy,
   nameOrDescriptionMatch,
-}: getAllItemsProps) {
+}: GetAllItemsProps) {
   try {
     const response = await axiosInstance.get<DataWithTotal>(
       `/items/paginated?size=10`,
