@@ -1,0 +1,10 @@
+
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johne3@example.com",
+  "phone": "12846227890",
+  "address": "1234 Main St"
+}

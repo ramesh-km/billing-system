@@ -3,13 +3,13 @@ import { z } from "zod";
 import db from "../lib/db";
 
 const schema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1).optional(),
+  name: z.string().trim().min(1).max(50),
+  description: z.string().trim().min(1).optional(),
   image: z.string().min(1).optional(),
   price: z.number().min(1),
-  availableQuantity: z.number(),
+  availableQuantity: z.number().default(1),
   allowedMinQuantity: z.number().min(1).default(1),
-  allowedMaxQuantity: z.number().min(1).optional(),
+  allowedMaxQuantity: z.number().min(1).default(10).optional(),
 });
 
 const createItemHandler: RequestHandler = async (req, res) => {

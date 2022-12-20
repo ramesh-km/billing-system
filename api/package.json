@@ -10,7 +10,8 @@
     "prod-migrate": "npx prisma migrate deploy",
     "start": "npm run prod-migrate && node build/src/index.js",
     "seed": "ts-node prisma/seed.ts",
-    "try": "ts-node src/try.ts"
+    "try": "ts-node src/try.ts",
+    "lint": "eslint src/"
   },
   "keywords": [],
   "author": "",
