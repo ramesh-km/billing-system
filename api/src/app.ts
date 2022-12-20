@@ -3,7 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import itemsRouter from "./items/items.router";
 import customersRouter from "./customers/customers.router";
-import errorMiddleware from "./lib/error.middleware";
+import errorMiddleware from "./lib/middleware/error.middleware";
 import config from "./lib/config";
 import cors from "cors";
 
