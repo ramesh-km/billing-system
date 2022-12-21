@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllItems } from "../api/items";
-import Item from "../components/Item";
+import { getAllCustomers } from "../api/customers";
+import Customer from "../components/Customer";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDebouncedState } from "@mantine/hooks";
@@ -17,7 +17,6 @@ import {
   Center,
   TextInput,
   Pagination,
-  Paper,
 } from "@mantine/core";
 
 import { IconSelector, IconSearch, IconPlus } from "@tabler/icons";
@@ -48,11 +47,10 @@ const useStyles = createStyles((theme) => ({
 
 interface ThProps {
   children: React.ReactNode;
-  reversed?: boolean;
   onSort(): void;
 }
 
-function Th({ children, reversed, onSort }: ThProps) {
+function Th({ children, onSort }: ThProps) {
   const { classes } = useStyles();
   const Icon = IconSelector;
   return (
@@ -71,33 +69,32 @@ function Th({ children, reversed, onSort }: ThProps) {
   );
 }
 
-function Items() {
+function Customers() {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useDebouncedState<undefined | string>(
     undefined,
     500
   );
-
   const [sorting, setSorting] = useState("updatedAt");
 
   const { isLoading, isError, error, data, isFetching, isPreviousData } =
     useQuery({
-      queryKey: ["items", page, search, sorting],
+      queryKey: ["customers", page, search, sorting],
       queryFn: () =>
-        getAllItems({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
+        getAllCustomers({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
       staleTime: 5000,
-    }); 
+    });
 
   // Prefetch the next page!
   useEffect(() => {
     //@ts-ignore
     if (!isPreviousData && data?.hasMore) {
       queryClient.prefetchQuery({
-        queryKey: ["items", page + 1],
+        queryKey: ["customers", page + 1],
         queryFn: () =>
-          getAllItems({
+          getAllCustomers({
             page: page + 1,
             sortBy: sorting,
             nameOrDescriptionMatch: search,
@@ -124,7 +121,7 @@ function Items() {
   return (
     <Flex direction={"column"} p="lg">
       <Title order={1} align="center" my="lg">
-        Items
+        Customers
       </Title>
       <ScrollArea>
         <TextInput
@@ -142,23 +139,17 @@ function Items() {
           <thead>
             <tr>
               <Th onSort={() => setSorting("name")}>Name</Th>
-              <Th onSort={() => setSorting("price")}>Price</Th>
-              <Th onSort={() => setSorting("availableQuantity")}>
-                Available Qty
-              </Th>
-              <Th onSort={() => setSorting("allowedMinQuantity")}>
-                Allowed Min Qty
-              </Th>
-              <Th onSort={() => setSorting("allowedMaxQuantity")}>
-                Allowed Max Qty
-              </Th>
-              <Th onSort={() => setSorting("description")}>Description</Th>
+              <Th onSort={() => setSorting("email")}>Email</Th>
+              <Th onSort={() => setSorting("phone")}>Phone</Th>
+              <Th onSort={() => setSorting("address")}>Address</Th>
               <th>Remove</th>
             </tr>
           </thead>
           <tbody>
             {data?.data?.length > 0 ? (
-              data.data.map((item) => <Item key={item.id} {...item} />)
+              data.data.map((customer) => (
+                <Customer key={customer.id} {...customer} />
+              ))
             ) : (
               <tr>
                 <td colSpan={6}>
@@ -181,7 +172,7 @@ function Items() {
             }}
           >
             <IconPlus />
-            Add Item
+            Add Customer
           </Link>
         </Button>
         <Center py="2rem">
@@ -200,4 +191,4 @@ function Items() {
   );
 }
 
-export default Items;
+export default Customers;

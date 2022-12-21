@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import CreateContact from "../components/CreateContact";
+import CreateCustomer from "../components/CreateCustomer";
 import CreateItem from "../components/CreateItem";
+import UpdateCustomer from "../components/UpdateCustomer";
+import UpdateItem from "../components/UpdateItem";
 import MainLayout from "../layouts/MainLayout";
-import Contacts from "../pages/Contacts";
+import Customers from "../pages/Customers";
 import ErrorPage from "../pages/ErrorPage";
 import Items from "../pages/Items";
 
@@ -18,17 +20,25 @@ const router = createBrowserRouter([
         
       },
       {
-        path: "contacts",
-        element: <Contacts />,
-        
-      },
-      {
         path: "create-item",
         element: <CreateItem />,
       },
       {
-        path: "create-contact",
-        element: <CreateContact />,
+        path: "update-item/:id",
+        element: <UpdateItem />,
+      },
+      {
+        path: "customers",
+        element: <Customers />,
+        
+      },
+      {
+        path: "create-customer",
+        element: <CreateCustomer />,
+      },
+      {
+        path: "update-customer/:id",
+        element: <UpdateCustomer />,
       },
     ],
   },
