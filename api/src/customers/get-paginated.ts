@@ -1,4 +1,4 @@
-import { Customer } from "@prisma/client";
+import { Customer, Prisma } from "@prisma/client";
 import { RequestHandler } from "express";
 import db from "../lib/db";
 import { ResBody } from "../types/util";
@@ -6,50 +6,54 @@ import { GetPaginatedCustomersParamsSchema } from "./schemas";
 
 export const getPaginatedCustomersHandler: RequestHandler<
   unknown,
-  ResBody<Customer[]>
+  ResBody<{ data: Customer[]; total: number }>
 > = async (req, res, next) => {
   const { page, size, sortBy, sortDirection, search } =
     GetPaginatedCustomersParamsSchema.parse(req.query);
 
+  const where: Prisma.CustomerWhereInput = search
+    ? {
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            email: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            phone: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            address: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      }
+    : {};
+
+  const total = await db.customer.count({ where });
+
   try {
-    const customers = await db.customer.findMany({
+    const data = await db.customer.findMany({
       skip: page * size,
       take: size,
       orderBy: {
         [sortBy]: sortDirection,
       },
-      where: search
-        ? {
-            OR: [
-              {
-                name: {
-                  contains: search,
-                  mode: "insensitive",
-                },
-              },
-              {
-                email: {
-                  contains: search,
-                  mode: "insensitive",
-                },
-              },
-              {
-                phone: {
-                  contains: search,
-                  mode: "insensitive",
-                },
-              },
-              {
-                address: {
-                  contains: search,
-                  mode: "insensitive",
-                },
-              },
-            ],
-          }
-        : undefined,
+      where,
     });
-    res.status(200).json(customers);
+    res.status(200).json({ data, total });
   } catch (error) {
     next(error);
   }
