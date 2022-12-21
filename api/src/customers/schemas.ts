@@ -2,10 +2,16 @@ import { z } from "zod";
 import { numberSchema } from "../lib/zod-schemas";
 
 export const CreateCustomerSchema = z.object({
-  name: z.string().min(1).max(50),
-  email: z.string().email().max(50).optional(),
-  phone: z.string().min(9).max(20).optional(),
-  address: z.string().min(1).max(100).optional(),
+  name: z.string().trim().min(1).max(50),
+  email: z
+    .string()
+    .trim()
+    .email()
+    .max(50)
+    .transform((v) => v.toLowerCase())
+    .optional(),
+  phone: z.string().trim().min(9).max(20).optional(),
+  address: z.string().trim().min(1).max(100).optional(),
 });
 
 export const CustomerIdSchema = z.object({
@@ -30,7 +36,7 @@ export const GetPaginatedCustomersParamsSchema = z.object({
     .optional()
     .default("updatedAt"),
   sortDirection: z.enum(["asc", "desc"]).optional().default("desc"),
-  search: z.string().min(1).optional(),
+  search: z.string().trim().min(1).optional(),
 });
 
 export type GetPaginatedCustomersParams = z.infer<

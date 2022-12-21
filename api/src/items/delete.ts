@@ -1,30 +1,25 @@
+import { Item } from "@prisma/client";
 import { RequestHandler } from "express";
 import db from "../lib/db";
 import { numberSchema } from "../lib/zod-schemas";
+import { ItemIdParam } from "../types/items";
+import { ResBody } from "../types/util";
 
-const deleteItemHandler: RequestHandler = async (req, res) => {
-  // Validate req params
-  const idResult = numberSchema.safeParse(req.params.itemId);
-  if (!idResult.success) {
-    return res.json({
-      message: "Invalid item id",
-      errors: idResult.error.issues,
-    });
-  }
-
-  // Delete item from db
+const deleteItemHandler: RequestHandler<ItemIdParam, ResBody<Item>> = async (
+  req,
+  res,
+  next
+) => {
+  const { itemId } = req.params;
   try {
-    const data = await db.item.delete({
+    const item = await db.item.delete({
       where: {
-        id: idResult.data,
+        id: numberSchema.parse(itemId),
       },
     });
-    return res.json(data);
+    res.status(200).json(item);
   } catch (error) {
-    return res.json({
-      message: "Error deleting item",
-      errors: error,
-    });
+    next(error);
   }
 };
 

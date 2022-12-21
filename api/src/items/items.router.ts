@@ -1,20 +1,35 @@
 import { Router } from "express";
+import zodValidatorMiddleware from "../lib/middleware/zodValidator.middleware";
 import createItemHandler from "./create";
 import deleteItemHandler from "./delete";
-import readItemHandler from "./read";
-import readAllPaginatedHandler from "./read-all-paginated";
+import getItemHandler from "./get";
+import getPaginatedItemsHandler from "./get-paginated";
+import {
+  CreateItemSchema,
+  GetPaginatedItemsParamsSchema,
+  ItemIdSchema,
+} from "./schemas";
 import updateItemHandler from "./update";
 
 export const itemsRouter = Router({
-  mergeParams: true
+  mergeParams: true,
 });
 
-itemsRouter.get("/paginated", readAllPaginatedHandler);
-itemsRouter.route("/").post(createItemHandler);
+itemsRouter.get(
+  "/paginated",
+  zodValidatorMiddleware(GetPaginatedItemsParamsSchema),
+  getPaginatedItemsHandler
+);
+
+itemsRouter
+  .route("/")
+  .post(zodValidatorMiddleware(CreateItemSchema), createItemHandler);
+
 itemsRouter
   .route("/:itemId")
+  .all(zodValidatorMiddleware(ItemIdSchema, "params"))
   .delete(deleteItemHandler)
-  .put(updateItemHandler)
-  .get(readItemHandler);
+  .put(zodValidatorMiddleware(CreateItemSchema), updateItemHandler)
+  .get(getItemHandler);
 
 export default itemsRouter;

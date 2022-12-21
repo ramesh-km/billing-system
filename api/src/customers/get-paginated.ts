@@ -42,9 +42,8 @@ export const getPaginatedCustomersHandler: RequestHandler<
       }
     : {};
 
-  const total = await db.customer.count({ where });
-
   try {
+    const total = await db.customer.count({ where });
     const data = await db.customer.findMany({
       skip: page * size,
       take: size,

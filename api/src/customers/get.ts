@@ -10,11 +10,17 @@ const getCustomerHandler: RequestHandler<
   CustomerIdParam,
   ResBody<Customer>
 > = async (req, res, next) => {
-  const customer = await db.customer.findUnique({
-    where: {
-      id: numberSchema.parse(req.params.customerId),
-    },
-  });
+  // Find the customer
+  let customer = null;
+  try {
+    customer = await db.customer.findUnique({
+      where: {
+        id: numberSchema.parse(req.params.customerId),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 
   if (!customer) {
     next(createError(404, "Customer not found"));

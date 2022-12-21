@@ -9,7 +9,6 @@ const createCustomerHandler: RequestHandler<
   ResBody<Customer>,
   CreateCustomerData
 > = async (req, res, next) => {
-
   // Create the customer
   try {
     const customer = await db.customer.create({
