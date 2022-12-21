@@ -13,3 +13,26 @@ export const CustomerIdSchema = z.object({
 });
 
 export type CreateCustomerData = z.infer<typeof CreateCustomerSchema>;
+
+export const GetPaginatedCustomersParamsSchema = z.object({
+  page: numberSchema.default(0),
+  size: numberSchema.default(15),
+  sortBy: z
+    .enum([
+      "name",
+      "email",
+      "phone",
+      "address",
+      "createdAt",
+      "updatedAt",
+      "deletedAt",
+    ])
+    .optional()
+    .default("updatedAt"),
+  sortDirection: z.enum(["asc", "desc"]).optional().default("desc"),
+  search: z.string().min(1).optional(),
+});
+
+export type GetPaginatedCustomersParams = z.infer<
+  typeof GetPaginatedCustomersParamsSchema
+>;

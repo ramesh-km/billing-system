@@ -30,3 +30,7 @@ DELETE {{baseUrl}}/customers/1
 GET {{baseUrl}}/customers/2
 
 
+###
+
+GET {{baseUrl}}/customers/paginated?page=1&limit=10
+

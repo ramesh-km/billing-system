@@ -6,7 +6,7 @@ import { CustomerIdParam } from "../types/customers";
 import { ResBody } from "../types/util";
 import createError from "http-errors";
 
-const readCustomerHandler: RequestHandler<
+const getCustomerHandler: RequestHandler<
   CustomerIdParam,
   ResBody<Customer>
 > = async (req, res, next) => {
@@ -24,4 +24,4 @@ const readCustomerHandler: RequestHandler<
   res.status(200).json(customer);
 };
 
-export default readCustomerHandler;
+export default getCustomerHandler;
