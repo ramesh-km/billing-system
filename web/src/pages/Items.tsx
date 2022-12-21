@@ -88,7 +88,7 @@ function Items() {
         getAllItems({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
       keepPreviousData: true,
       staleTime: 5000,
-    }); 
+    });
 
   // Prefetch the next page!
   useEffect(() => {
@@ -161,12 +161,7 @@ function Items() {
               data.data.map((item) => <Item key={item.id} {...item} />)
             ) : (
               <tr>
-                <td colSpan={6}>
-                  {" "}
-                  <Text weight={500} align="center">
-                    Nothing found
-                  </Text>
-                </td>{" "}
+                <td colSpan={6}>Nothing found</td>
               </tr>
             )}
           </tbody>

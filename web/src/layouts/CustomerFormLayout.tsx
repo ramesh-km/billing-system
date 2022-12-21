@@ -45,7 +45,6 @@ const CustomerFormLayout = ({
 
   const onSubmit = handleSubmit((data: CustomerData) => {
     onCustomerSubmit(data);
-    console.log("🚀 ~ file: CustomerFormLayout.tsx:50 ~ onSubmit ~ data", data);
   });
 
   return (

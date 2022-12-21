@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createStyles, Navbar, Text, Flex } from "@mantine/core";
-import {useNavigate, Link,Outlet } from "react-router-dom";
-
+import { useNavigate, Link, Outlet,Navigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import {
   IconClipboardList,
   IconAddressBook,
@@ -96,6 +96,7 @@ const data = [
 ];
 
 function MainLayout(): JSX.Element {
+  const auth = useAuth()
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Items");
   const navigate = useNavigate()
@@ -117,36 +118,37 @@ function MainLayout(): JSX.Element {
       <span>{item.label}</span>
     </a>
   ));
-
+  
+  if (!auth.token) return <Navigate to='/login' />
   return (
-    <Flex >
-      <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
-        <Navbar.Section grow>
-          <Flex className={classes.header} align="center" justify={"center"}>
-            <Text sx={{ fontSize: "1.5rem", fontWeight: 600 }}>
-              <Link to="/" style={{ textDecoration: "none", color: "blue" }}>
-                Billing System
-              </Link>
-            </Text>
-          </Flex>
-          {links}
-        </Navbar.Section>
+      <Flex>
+        <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
+          <Navbar.Section grow>
+            <Flex className={classes.header} align="center" justify={"center"}>
+              <Text sx={{ fontSize: "1.5rem", fontWeight: 600 }}>
+                <Link to="/" style={{ textDecoration: "none", color: "blue" }}>
+                  Billing System
+                </Link>
+              </Text>
+            </Flex>
+            {links}
+          </Navbar.Section>
 
-        <Navbar.Section className={classes.footer}>
-          <a
-            href="#"
-            className={classes.link}
-            onClick={(event) => event.preventDefault()}
-          >
-            <IconLogout className={classes.linkIcon} stroke={1.5} />
-            <span>Logout</span>
-          </a>
-        </Navbar.Section>
-      </Navbar>
-      <div style={{ height: "100vh", width:'100%'}}>
-        <Outlet />
-      </div>
-    </Flex>
+          <Navbar.Section className={classes.footer}>
+            <a
+              href="#"
+              className={classes.link}
+              onClick={(event) => event.preventDefault()}
+            >
+              <IconLogout className={classes.linkIcon} stroke={1.5} />
+              <span>Logout</span>
+            </a>
+          </Navbar.Section>
+        </Navbar>
+        <div style={{ height: "100vh", width: "100%" }}>
+          <Outlet />
+        </div>
+      </Flex>
   );
 }
 
