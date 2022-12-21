@@ -15,6 +15,12 @@ export const customersRouter = Router({
   mergeParams: true,
 });
 
+customersRouter.get(
+  "/paginated",
+  zodValidatorMiddleware(GetPaginatedCustomersParamsSchema, "query"),
+  getPaginatedCustomersHandler
+);
+
 customersRouter.post(
   "/",
   zodValidatorMiddleware(CreateCustomerSchema),
@@ -27,11 +33,5 @@ customersRouter
   .put(zodValidatorMiddleware(CreateCustomerSchema), updateCustomerHandler)
   .delete(deleteCustomerHandler)
   .get(getCustomerHandler);
-
-customersRouter.get(
-  "/paginated",
-  zodValidatorMiddleware(GetPaginatedCustomersParamsSchema, "query"),
-  getPaginatedCustomersHandler
-);
 
 export default customersRouter;
