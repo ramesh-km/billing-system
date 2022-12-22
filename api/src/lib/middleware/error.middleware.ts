@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { ErrorRequestHandler } from "express";
 import { ErrorResponse } from "../../types/util";
 import createError from "http-errors";
+import { UnauthorizedError } from "express-jwt";
 
 // Error middleware
 const errorMiddleware: ErrorRequestHandler<unknown, ErrorResponse> = (
@@ -13,6 +14,12 @@ const errorMiddleware: ErrorRequestHandler<unknown, ErrorResponse> = (
 ) => {
   // Log error
   console.error(error);
+
+  if (error instanceof UnauthorizedError) {
+    return res.status(401).json({
+      message: "Unauthorized request",
+    });
+  }
 
   // Prisma error
   if (error instanceof Prisma.PrismaClientKnownRequestError) {

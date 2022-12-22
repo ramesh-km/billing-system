@@ -14,7 +14,7 @@ export const CreateItemSchema = z.object({
 export type CreateItemData = z.infer<typeof CreateItemSchema>;
 
 export const ItemIdSchema = z.object({
-  itemId: z.number(),
+  itemId: numberSchema,
 });
 
 export const GetPaginatedItemsParamsSchema = z.object({

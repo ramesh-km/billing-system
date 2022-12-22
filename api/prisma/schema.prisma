@@ -10,6 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  email     String    @unique @db.VarChar(50)
+  password  String    @db.VarChar(100)
+  roles     String[]
+}
+
+model Permission {
+  name        String  @id @db.VarChar(50)
+  description String? @db.VarChar(100)
+  roles       Role[]
+}
+
+model Role {
+  name          String       @id @db.VarChar(50)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+  lastUpdatedBy Int
+  permissions   Permission[]
+}
+
 model Item {
   id                 Int       @id @default(autoincrement())
   name               String    @db.VarChar(50)
@@ -31,6 +57,6 @@ model Customer {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   email     String?   @unique @db.VarChar(50)
-  phone     String?   @db.VarChar(20) @unique
+  phone     String?   @unique @db.VarChar(20)
   address   String?   @db.VarChar(100)
 }
