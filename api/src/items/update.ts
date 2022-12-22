@@ -1,35 +1,29 @@
+import { Item } from "@prisma/client";
 import { RequestHandler } from "express";
-import { z } from "zod";
 import db from "../lib/db";
 import { numberSchema } from "../lib/zod-schemas";
+import { ItemIdParam } from "../types/items";
+import { ResBody } from "../types/util";
+import { CreateItemData } from "./schemas";
 
-const schema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1).optional(),
-  image: z.string().min(1).optional(),
-  price: z.number().min(1),
-  availableQuantity: z.number(),
-  allowedMinQuantity: z.number().min(1).default(1),
-  allowedMaxQuantity: z.number().min(1).optional(),
-});
-
-const updateItemHandler: RequestHandler = async (req, res) => {
-  const result = schema.safeParse(req.body);
-  const idResult = numberSchema.safeParse(req.params.itemId);
-  if (!result.success || !idResult.success) {
-    return res.json({
-      message: "Invalid request body",
-      errors: result.success ? [] : result.error.issues,
+const updateItemHandler: RequestHandler<
+  ItemIdParam,
+  ResBody<Item>,
+  CreateItemData
+> = async (req, res, next) => {
+  const { itemId } = req.params;
+  const data = req.body;
+  try {
+    const item = await db.item.update({
+      where: {
+        id: numberSchema.parse(itemId),
+      },
+      data,
     });
+    res.status(200).json(item);
+  } catch (error) {
+    next(error);
   }
-
-  // Update item
-  const item = await db.item.update({
-    where: { id: idResult.data },
-    data: result.data,
-  });
-
-  return res.json(item);
 };
 
 export default updateItemHandler;

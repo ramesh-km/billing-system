@@ -10,27 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  email     String    @unique @db.VarChar(50)
+  password  String    @db.VarChar(100)
+  roles     String[]
+}
+
+model Permission {
+  name        String  @id @db.VarChar(50)
+  description String? @db.VarChar(100)
+  roles       Role[]
+}
+
+model Role {
+  name          String       @id @db.VarChar(50)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+  lastUpdatedBy Int
+  permissions   Permission[]
+}
+
 model Item {
   id                 Int       @id @default(autoincrement())
-  name               String
+  name               String    @db.VarChar(50)
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   deletedAt          DateTime?
-  description        String?
+  description        String?   @db.VarChar(400)
   price              Int
   image              String?   @default("https://via.placeholder.com/150")
-  availableQuantity  Int
+  availableQuantity  Int       @default(1)
   allowedMinQuantity Int       @default(1)
-  allowedMaxQuantity Int?
+  allowedMaxQuantity Int?      @default(10)
 }
 
 model Customer {
   id        Int       @id @default(autoincrement())
-  name      String
+  name      String    @db.VarChar(50)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  email     String?
-  phone     String?
-  address   String?
+  email     String?   @unique @db.VarChar(50)
+  phone     String?   @unique @db.VarChar(20)
+  address   String?   @db.VarChar(100)
 }

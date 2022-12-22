@@ -1,25 +1,23 @@
+import { Customer } from "@prisma/client";
 import { RequestHandler } from "express";
-import { z } from "zod";
 import db from "../lib/db";
+import { ResBody } from "../types/util";
+import { CreateCustomerData } from "./schemas";
 
-const schema = z.object({
-  name: z.string().min(1),
-  email: z.string().email().optional(),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-});
-
-const createCustomerHandler: RequestHandler = (req, res) => {
-  // Validate the request body
-  const data = schema.parse(req.body);
-
+const createCustomerHandler: RequestHandler<
+  unknown,
+  ResBody<Customer>,
+  CreateCustomerData
+> = async (req, res, next) => {
   // Create the customer
-  const customer = db.customer.create({
-    data,
-  });
-
-  // Return the customer
-  res.status(201).json(customer);
+  try {
+    const customer = await db.customer.create({
+      data: req.body,
+    });
+    return res.status(201).json(customer);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default createCustomerHandler;

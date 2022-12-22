@@ -1,0 +1,36 @@
+
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john4e3@example.com",
+  "phone": "12846227890",
+  "address": "1234 Main St"
+}
+
+###
+
+PUT {{baseUrl}}/customers/1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john4e3@example.com",
+  "phone": "12846227890",
+  "address": "1234 Main St"
+}
+
+###
+
+DELETE {{baseUrl}}/customers/1
+
+###
+
+GET {{baseUrl}}/customers/2
+
+
+###
+
+GET {{baseUrl}}/customers/paginated?page=1&size=3&sortBy=email&sortDirection=desc&search=gmail
+
