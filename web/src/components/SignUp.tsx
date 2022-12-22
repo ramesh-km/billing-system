@@ -26,7 +26,7 @@ function SignUp() {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("/auth/register", { ...user });
+      const response = await axiosInstance.post("/auth/sign-up", { ...user });
       auth.login(response.data.token, response.data.user);
       console.log(
         "🚀 ~ file: Login.tsx:31 ~ handleLogin ~ response",
@@ -85,7 +85,7 @@ function SignUp() {
               onChange={handleChange}
             />
           </Input.Wrapper>
-          <Button fullWidth mt="xl">
+          <Button fullWidth mt="xl" type="submit">
             Sign Up
           </Button>
         </Paper>

@@ -15,6 +15,7 @@ import {
 
 function Login() {
   const auth = useAuth();
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -26,7 +27,7 @@ function Login() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("/auth/login", { ...user });
+      const response = await axiosInstance.post("/auth/sign-in", { ...user });
       auth.login(response.data.token, response.data.user);
       console.log(
         "🚀 ~ file: Login.tsx:31 ~ handleLogin ~ response",
@@ -79,7 +80,7 @@ function Login() {
           <Group position="apart" mt="lg">
             <Link to="/forgot-password" style={{textDecoration:'none'}}>Forgot password?</Link>
           </Group>
-          <Button fullWidth mt="xl">
+          <Button fullWidth mt="xl" type='submit'>
             Logn In
           </Button>
         </Paper>
