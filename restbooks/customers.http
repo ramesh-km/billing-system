@@ -34,9 +34,9 @@ Authorization: Bearer {{token}}
 ###
 
 GET {{baseUrl}}/customers/paginated?page=1&size=3&sortBy=email&sortDirection=desc&search=gmail
+Authorization: Bearer {{token}}
 
 
 ###
 
 GET {{baseUrl}}/customers/search?query=Ram
-Authorization: Bearer {{token}}
