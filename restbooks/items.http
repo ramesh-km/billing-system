@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ###
 
-GET {{baseUrl}}/items/3
+GET {{baseUrl}}/items/4
 Authorization: Bearer {{token}}
 
 ###
@@ -39,5 +39,9 @@ DELETE  {{baseUrl}}/items/2
 
 ###
 
-GET  {{baseUrl}}/items/paginated?size=30&page=0&sortBy=price&sortDirection=asc&nameOrDescriptionMatch=soap
+GET  {{baseUrl}}/items/paginated?size=30&page=0&sortBy=price&sortDirection=asc&search=soap
 
+###
+
+GET {{baseUrl}}/items/search?query=cheese
+Authorization: Bearer {{token}}

@@ -40,3 +40,9 @@ export const GetPaginatedItemsParamsSchema = z.object({
 export type GetPaginatedItemsParams = z.infer<
   typeof GetPaginatedItemsParamsSchema
 >;
+
+export const ItemsSearchSchema = z.object({
+  query: z.string().trim().min(1),
+});
+
+export type ItemsSearchData = z.infer<typeof ItemsSearchSchema>;

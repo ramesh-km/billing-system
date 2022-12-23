@@ -28,9 +28,15 @@ DELETE {{baseUrl}}/customers/1
 ###
 
 GET {{baseUrl}}/customers/2
+Authorization: Bearer {{token}}
 
 
 ###
 
 GET {{baseUrl}}/customers/paginated?page=1&size=3&sortBy=email&sortDirection=desc&search=gmail
 
+
+###
+
+GET {{baseUrl}}/customers/search?query=Ram
+Authorization: Bearer {{token}}

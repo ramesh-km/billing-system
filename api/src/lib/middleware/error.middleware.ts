@@ -40,6 +40,20 @@ const errorMiddleware: ErrorRequestHandler<unknown, ErrorResponse> = (
         errors: error.meta,
       });
     }
+
+    // Foreign key constraint error
+    if (error.code === "P2003") {
+      return res.status(400).json({
+        message: "Invalid foreign key",
+        errors: error.meta,
+      });
+    }
+
+    // Default error
+    return res.status(400).json({
+      message: "Bad request",
+      errors: error.meta,
+    });
   }
 
   if (error instanceof Prisma.PrismaClientValidationError) {

@@ -37,17 +37,18 @@ model Role {
 }
 
 model Item {
-  id                 Int       @id @default(autoincrement())
-  name               String    @db.VarChar(50)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  id                 Int         @id @default(autoincrement())
+  name               String      @db.VarChar(50)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
   deletedAt          DateTime?
-  description        String?   @db.VarChar(400)
+  description        String?     @db.VarChar(400)
   price              Int
-  image              String?   @default("https://via.placeholder.com/150")
-  availableQuantity  Int       @default(1)
-  allowedMinQuantity Int       @default(1)
-  allowedMaxQuantity Int?      @default(10)
+  image              String?     @default("https://via.placeholder.com/150")
+  availableQuantity  Int         @default(1)
+  allowedMinQuantity Int         @default(1)
+  allowedMaxQuantity Int?        @default(10)
+  OrderItem          OrderItem[]
 }
 
 model Customer {
@@ -59,4 +60,27 @@ model Customer {
   email     String?   @unique @db.VarChar(50)
   phone     String?   @unique @db.VarChar(20)
   address   String?   @db.VarChar(100)
+  Order     Order[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  items      OrderItem[]
+  customerId Int
+}
+
+model OrderItem {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  order     Order     @relation(fields: [orderId], references: [id])
+  item      Item      @relation(fields: [itemId], references: [id])
+  quantity  Int       @default(1)
+  orderId   Int
+  itemId    Int
 }

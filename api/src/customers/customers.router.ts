@@ -7,8 +7,10 @@ import { getPaginatedCustomersHandler } from "./get-paginated";
 import {
   CreateCustomerSchema,
   CustomerIdSchema,
+  CustomersSearchSchema,
   GetPaginatedCustomersParamsSchema,
 } from "./schemas";
+import { searchCustomersHandler } from "./search";
 import updateCustomerHandler from "./update";
 
 export const customersRouter = Router({
@@ -19,6 +21,12 @@ customersRouter.get(
   "/paginated",
   zodValidatorMiddleware(GetPaginatedCustomersParamsSchema, "query"),
   getPaginatedCustomersHandler
+);
+
+customersRouter.get(
+  "/search",
+  zodValidatorMiddleware(CustomersSearchSchema, "query"),
+  searchCustomersHandler
 );
 
 customersRouter.post(

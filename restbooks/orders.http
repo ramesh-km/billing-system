@@ -1,0 +1,14 @@
+
+POST {{baseUrl}}/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "customerId": 4,
+  "orderItems": [
+    {
+      "itemId": 4,
+      "quantity": 0
+    }
+  ]
+}

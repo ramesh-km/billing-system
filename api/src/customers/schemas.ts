@@ -42,3 +42,9 @@ export const GetPaginatedCustomersParamsSchema = z.object({
 export type GetPaginatedCustomersParams = z.infer<
   typeof GetPaginatedCustomersParamsSchema
 >;
+
+export const CustomersSearchSchema = z.object({
+  query: z.string().trim().min(1),
+});
+
+export type CustomersSearchData = z.infer<typeof CustomersSearchSchema>;

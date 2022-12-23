@@ -8,6 +8,7 @@ import config from "./lib/config";
 import cors from "cors";
 import usersRouter from "./users/users.router";
 import authenticationMiddleware from "./lib/middleware/authentication.middleware";
+import ordersRouter from "./orders/orders.router";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/auth", usersRouter);
 app.use(authenticationMiddleware());
 app.use("/api/items", itemsRouter);
 app.use("/api/customers", customersRouter);
+app.use("/api/orders", ordersRouter);
 
 // Error handling
 app.use(errorMiddleware);
