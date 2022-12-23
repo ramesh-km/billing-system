@@ -41,14 +41,10 @@ function ItemFormLayout({ defaultValues, onItemSubmit }: ItemFormLayoutProps) {
     reValidateMode: "onChange",
   });
 
-  console.log(
-    "🚀 ~ file: ItemFormLayout.tsx:42 ~ ItemFormLayout ~ errors",
-    errors
-  );
+  console.log("🚀 ~ file: ItemFormLayout.tsx:42 ~ errors", errors);
 
   const onSubmit = handleSubmit((data: ItemData) => {
     onItemSubmit(data);
-    console.log(data);
     // const reader = new FileReader()
     // const output = reader.readAsDataURL(data.image[0]?.name)
   });

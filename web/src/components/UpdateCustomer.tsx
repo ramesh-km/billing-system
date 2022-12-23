@@ -17,7 +17,7 @@ function UpdateCustomer() {
   const onFormSubmit = async (formData: CustomerData) => {
     if (id) {
       await mutateAsync({ id, formData });
-      navigate("/customer");
+      navigate("/customers");
     } else {
       return;
     }
@@ -38,7 +38,7 @@ function UpdateCustomer() {
     <>
       <BreadCrumb
         title="Customers"
-        titlePath="/customer"
+        titlePath="/customers"
         subTitle="Update Customer"
         subTitlePath="/update-customer"
       />

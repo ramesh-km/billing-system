@@ -82,7 +82,11 @@ function Customers() {
     useQuery({
       queryKey: ["customers", page, search, sorting],
       queryFn: () =>
-        getAllCustomers({ page, sortBy: sorting, nameOrDescriptionMatch: search }),
+        getAllCustomers({
+          page,
+          sortBy: sorting,
+          nameOrDescriptionMatch: search,
+        }),
       keepPreviousData: true,
       staleTime: 5000,
     });
@@ -152,19 +156,14 @@ function Customers() {
               ))
             ) : (
               <tr>
-                <td colSpan={6}>
-                  {" "}
-                  <Text weight={500} align="center">
-                    Nothing found
-                  </Text>
-                </td>{" "}
+                <td colSpan={6}>Nothing found</td>{" "}
               </tr>
             )}
           </tbody>
         </Table>
         <Button variant="outline">
           <Link
-            to="/create-item"
+            to="/create-customer"
             style={{
               textDecoration: "none",
               display: "flex",
