@@ -1,5 +1,6 @@
 import { Order } from "@prisma/client";
 import { RequestHandler } from "express";
+import signale from "signale";
 import db from "../lib/db";
 import { ResBody } from "../types/util";
 import { CreateOrder } from "./schema";
@@ -100,6 +101,7 @@ export const createOrderHandler: RequestHandler<
       return order;
     });
   } catch (error) {
+    signale.warn("Failed to create order", error);
     next(error);
     return;
   }
