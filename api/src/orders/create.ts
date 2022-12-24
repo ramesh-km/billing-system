@@ -30,8 +30,10 @@ export const createOrderHandler: RequestHandler<
     return;
   }
 
-  // Items quantity must be greater than 0 and less than or equal to available quantity in stock
+  // * Create the order
+  let order: Order;
   try {
+    // Items quantity must be greater than 0 and less than or equal to available quantity in stock
     const items = await db.item.findMany({
       where: {
         id: {
@@ -61,16 +63,9 @@ export const createOrderHandler: RequestHandler<
       });
       return;
     }
-  } catch (error) {
-    next(error);
-    return;
-  }
 
-  // * Create the order
-  let order: Order;
-  try {
+    // Create the order
     order = await db.$transaction(async (tx) => {
-      // Create the order
       const order = await tx.order.create({
         data: {
           customerId: req.body.customerId,
