@@ -9,6 +9,8 @@ import cors from "cors";
 import usersRouter from "./users/users.router";
 import authenticationMiddleware from "./lib/middleware/authentication.middleware";
 import ordersRouter from "./orders/orders.router";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./lib/swaggerDocument";
 
 const app = express();
 
@@ -26,14 +28,17 @@ app.get("/healthcheck", (req, res) =>
 );
 
 // Routers
-app.use("/api/auth", usersRouter);
+app.use("/api/v1/auth", usersRouter);
+
+// Swagger UI
+app.use("/api-docs-v1", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Protect all routes after this middleware
 // Authentication middleware
 app.use(authenticationMiddleware());
-app.use("/api/items", itemsRouter);
-app.use("/api/customers", customersRouter);
-app.use("/api/orders", ordersRouter);
+app.use("/api/v1/items", itemsRouter);
+app.use("/api/v1/customers", customersRouter);
+app.use("/api/v1/orders", ordersRouter);
 
 // Error handling
 app.use(errorMiddleware);

@@ -3,19 +3,20 @@ import { RequestHandler } from "express";
 import db from "../lib/db";
 import { ResBody } from "../types/util";
 import {
-  GetPaginatedItemsParams,
-  GetPaginatedItemsParamsSchema,
+  GetPaginatedItemsQuery,
+  GetPaginatedItemsQuerySchema,
 } from "./schemas";
 
 // Offset (skip, limit/take) pagination
 // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#offset-pagination
 const getPaginatedItemsHandler: RequestHandler<
-  GetPaginatedItemsParams,
+  unknown,
   ResBody<{ data: Item[]; total: number }>,
-  unknown
+  unknown,
+  GetPaginatedItemsQuery
 > = async (req, res, next) => {
   const { page, size, sortBy, sortDirection, search } =
-    GetPaginatedItemsParamsSchema.parse(req.query);
+    GetPaginatedItemsQuerySchema.parse(req.query);
 
   const where: Prisma.ItemWhereInput = search
     ? {

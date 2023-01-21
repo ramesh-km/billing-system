@@ -6,7 +6,8 @@ import getItemHandler from "./get";
 import getPaginatedItemsHandler from "./get-paginated";
 import {
   CreateItemSchema,
-  GetPaginatedItemsParamsSchema,
+  type GetPaginatedItemsQuery,
+  GetPaginatedItemsQuerySchema,
   ItemIdSchema,
   ItemsSearchSchema,
 } from "./schemas";
@@ -17,9 +18,15 @@ export const itemsRouter = Router({
   mergeParams: true,
 });
 
-itemsRouter.get(
+itemsRouter.get<
   "/paginated",
-  zodValidatorMiddleware(GetPaginatedItemsParamsSchema),
+  unknown,
+  unknown,
+  unknown,
+  GetPaginatedItemsQuery
+>(
+  "/paginated",
+  zodValidatorMiddleware(GetPaginatedItemsQuerySchema, "query"),
   getPaginatedItemsHandler
 );
 

@@ -17,7 +17,7 @@ export const ItemIdSchema = z.object({
   itemId: numberSchema,
 });
 
-export const GetPaginatedItemsParamsSchema = z.object({
+export const GetPaginatedItemsQuerySchema = z.object({
   page: numberSchema.default(0),
   size: numberSchema.default(15),
   sortBy: z
@@ -37,8 +37,8 @@ export const GetPaginatedItemsParamsSchema = z.object({
   search: z.string().min(1).optional(),
 });
 
-export type GetPaginatedItemsParams = z.infer<
-  typeof GetPaginatedItemsParamsSchema
+export type GetPaginatedItemsQuery = z.infer<
+  typeof GetPaginatedItemsQuerySchema
 >;
 
 export const ItemsSearchSchema = z.object({

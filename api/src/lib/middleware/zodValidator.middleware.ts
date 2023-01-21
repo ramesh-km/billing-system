@@ -5,7 +5,11 @@ const zodValidatorMiddleware = (
   schema: z.ZodSchema,
   reqPart: "query" | "params" | "body" = "body"
 ) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (
+    req: Request<unknown, unknown, unknown, unknown>,
+    res: Response,
+    next: NextFunction
+  ) => {
     const zodResult = schema.safeParse(req[reqPart]);
 
     if (!zodResult.success) {

@@ -1,0 +1,180 @@
+openapi: "3.0.0"
+info:
+  title: Billing System API
+  description: Generic Billing System API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local server
+  - url: http://localhost:8080/api/v1
+    description: Development server
+
+security:
+  - bearerAuth: [] # use the same name as above
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
+  schemas:
+    ErrorData:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+            required: false
+
+    CreateItem:
+      type: object
+      properties:
+        name:
+          type: string
+          format: string
+          example: "Laptop"
+        description:
+          type: string
+          format: string
+          example: "Laptop with magic powers"
+        image:
+          type: string
+          format: string
+          example: "https://example.com/images/laptop.png"
+        price:
+          type: integer
+          format: int64
+          example: 300
+        availableQuantity:
+          type: integer
+          format: int64
+          example: 2
+        allowedMaxQuantity:
+          type: integer
+          format: int64
+          example: 5
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          format: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        user:
+          type: object
+          properties:
+            id:
+              type: number
+            email:
+              type: string
+            name:
+              type: string
+            roles:
+              type: array
+              items:
+                type: string
+              example: ["admin", "customer"]
+            permissions:
+              type: array
+              items:
+                type: string
+              example: ["create:order", "update:item"]
+
+paths:
+  /items:
+    post:
+      summary: Create an item (product)
+      description: Create an item (product) in the stock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateItem"
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+
+  /auth/sign-in:
+    post:
+      deprecated: false
+      summary: Sign In
+      description: Sign in to app
+      requestBody:
+        required: true
+        description: Please choose strong password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: string
+                  example: ramesh@example.com
+                password:
+                  type: string
+                  format: string
+                  example: password123
+      responses:
+        "200":
+          description: sign in successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+
+  /auth/sign-up:
+    post:
+      deprecated: false
+      summary: Sign In
+      description: Sign in to app
+      requestBody:
+        required: true
+        description: Please choose strong password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: string
+                  example: ramesh@example.com
+                password:
+                  type: string
+                  format: string
+                  example: password123
+                name:
+                  type: string
+                  format: string
+                  example: ramesh
+      responses:
+        "201":
+          description: signup successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"

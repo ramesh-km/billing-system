@@ -5,6 +5,7 @@ import config from "./lib/config";
 async function main() {
   signale.info("Node environment:", config.NODE_ENV);
   signale.info("Database URL:", config.DATABASE_URL);
+  signale.info(`API Docs: http://localhost:${config.PORT}/api-docs-v1`);
 
   if (config.NODE_ENV === "development") {
     // console.clear();
