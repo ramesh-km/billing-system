@@ -1,3 +1,6 @@
+import { OrderItem, Prisma } from "@prisma/client";
+import db from "../../lib/db";
+
 /**
  * deletes given order items and updates the corresponding items's quantity
  * @param orderId

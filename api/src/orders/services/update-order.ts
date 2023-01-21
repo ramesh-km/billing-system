@@ -1,6 +1,5 @@
-import { OrderItem, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import db from "../../lib/db";
-
 
 export async function updateOrder(
   id: number,
@@ -18,3 +17,4 @@ export async function updateOrder(
 
   return updateOrder;
 }
+

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import zodValidatorMiddleware from "../lib/middleware/zodValidator.middleware";
 import { createOrderHandler } from "./create";
+import { deleteOrderHandler } from "./delete";
 import { CreateOrderSchema, OrderIdParamSchema } from "./schema";
 import { updateOrderHandler } from "./update";
 
@@ -14,11 +15,17 @@ ordersRouter.post(
   createOrderHandler
 );
 
-ordersRouter.put(
+ordersRouter.use(
   "/:orderId",
-  zodValidatorMiddleware(OrderIdParamSchema, "params"),
+  zodValidatorMiddleware(OrderIdParamSchema, "params")
+);
+
+ordersRouter.put<"/:orderId">(
+  "/:orderId",
   zodValidatorMiddleware(CreateOrderSchema),
   updateOrderHandler
 );
+
+ordersRouter.delete("/:orderId", deleteOrderHandler);
 
 export default ordersRouter;
