@@ -84,6 +84,27 @@ components:
           maxLength: 100
           nullable: true
 
+    CreateOrder:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          min: 1
+          example: 1
+        orderItems:
+          type: array
+          items:
+            type: object
+            properties:
+              itemId:
+                type: integer
+                min: 1
+                example: 1
+              quantity:
+                type: integer
+                min: 1
+                example: 1
+
     AuthResponse:
       type: object
       properties:
@@ -489,3 +510,84 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
+
+  /orders:
+    post:
+      deprecated: false
+      summary: create order
+      description: create new order
+      tags:
+        - Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrder"
+
+  /orders/{orderId}:
+    parameters:
+      - in: path
+        name: orderId
+        description: Order numeric id.
+        required: true
+        schema:
+          type: integer
+          min: 1
+          example: 1
+    get:
+      deprecated: false
+      summary: Get order data
+      tags:
+        - Orders
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object # Use $ref and add actual response schema
+
+    put:
+      deprecated: false
+      summary: Update the order data
+      tags:
+        - Orders
+      requestBody:
+        description: Order data to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrder"
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object # Use $ref and add actual response schema
+
+    delete:
+      deprecated: false
+      summary: Delete the order
+      tags:
+        - Orders
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object # Use $ref and add actual response schema
+
+  # /orders/search:
+  #   parameters:
+  #     - in: query
+  #       name: query
+  #       schema:
+  #         type: string
+  #         minLength: 1
+  #         required: false
+
+  #   get:
+  #     deprecated: false
+  #     summary: Search orders
