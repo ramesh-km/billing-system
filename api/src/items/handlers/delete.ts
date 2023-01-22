@@ -1,9 +1,9 @@
 import { Item } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { numberSchema } from "../lib/zod-schemas";
-import { ItemIdParam } from "../types/items";
-import { ResBody } from "../types/util";
+import db from "../../lib/db";
+import { numberSchema } from "../../lib/zod-schemas";
+import { ItemIdParam } from "../../types/items";
+import { ResBody } from "../../types/util";
 
 const deleteItemHandler: RequestHandler<ItemIdParam, ResBody<Item>> = async (
   req,

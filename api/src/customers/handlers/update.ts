@@ -1,10 +1,10 @@
 import { Customer } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { numberSchema } from "../lib/zod-schemas";
-import { CustomerIdParam } from "../types/customers";
-import { ResBody } from "../types/util";
-import { CreateCustomerData } from "./schemas";
+import db from "../../lib/db";
+import { numberSchema } from "../../lib/zod-schemas";
+import { CustomerIdParam } from "../../types/customers";
+import { ResBody } from "../../types/util";
+import { CreateCustomerData } from "../schemas";
 
 const updateCustomerHandler: RequestHandler<
   CustomerIdParam,

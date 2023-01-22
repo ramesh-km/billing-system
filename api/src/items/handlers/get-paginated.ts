@@ -1,11 +1,11 @@
 import { Item, Prisma } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { ResBody } from "../types/util";
+import db from "../../lib/db";
+import { ResBody } from "../../types/util";
 import {
   GetPaginatedItemsQuery,
   GetPaginatedItemsQuerySchema,
-} from "./schemas";
+} from "../schemas";
 
 // Offset (skip, limit/take) pagination
 // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#offset-pagination

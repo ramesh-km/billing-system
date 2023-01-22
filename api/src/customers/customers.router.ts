@@ -1,17 +1,17 @@
 import { Router } from "express";
 import zodValidatorMiddleware from "../lib/middleware/zodValidator.middleware";
-import createCustomerHandler from "./create";
-import deleteCustomerHandler from "./delete";
-import getCustomerHandler from "./get";
-import { getPaginatedCustomersHandler } from "./get-paginated";
+import createCustomerHandler from "./handlers/create";
+import deleteCustomerHandler from "./handlers/delete";
+import getCustomerHandler from "./handlers/get";
+import { getPaginatedCustomersHandler } from "./handlers/get-paginated";
 import {
   CreateCustomerSchema,
   CustomerIdSchema,
   CustomersSearchSchema,
   GetPaginatedCustomersParamsSchema,
 } from "./schemas";
-import { searchCustomersHandler } from "./search";
-import updateCustomerHandler from "./update";
+import { searchCustomersHandler } from "./handlers/search";
+import updateCustomerHandler from "./handlers/update";
 
 export const customersRouter = Router({
   mergeParams: true,

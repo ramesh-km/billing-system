@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { numberSchema } from "../lib/zod-schemas";
 import createError from "http-errors";
+import db from "../../lib/db";
+import { numberSchema } from "../../lib/zod-schemas";
 
 const getItemHandler: RequestHandler = async (req, res, next) => {
   const { itemId } = req.params;

@@ -1,9 +1,9 @@
 import { Order } from "@prisma/client";
 import { RequestHandler } from "express";
 import signale from "signale";
-import db from "../lib/db";
-import { ResBody } from "../types/util";
-import { CreateOrder } from "./schema";
+import db from "../../lib/db";
+import { ResBody } from "../../types/util";
+import { CreateOrder } from "../schema";
 
 export const createOrderHandler: RequestHandler<
   unknown,

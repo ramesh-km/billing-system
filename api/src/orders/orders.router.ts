@@ -1,9 +1,9 @@
 import { Router } from "express";
 import zodValidatorMiddleware from "../lib/middleware/zodValidator.middleware";
-import { createOrderHandler } from "./create";
-import { deleteOrderHandler } from "./delete";
+import { createOrderHandler } from "./handlers/create";
+import { deleteOrderHandler } from "./handlers/delete";
+import { updateOrderHandler } from "./handlers/update";
 import { CreateOrderSchema, OrderIdParamSchema } from "./schema";
-import { updateOrderHandler } from "./update";
 
 const ordersRouter = Router({
   mergeParams: true,

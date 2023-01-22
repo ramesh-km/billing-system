@@ -1,10 +1,11 @@
 import { Item } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { numberSchema } from "../lib/zod-schemas";
-import { ItemIdParam } from "../types/items";
-import { ResBody } from "../types/util";
-import { CreateItemData } from "./schemas";
+import db from "../../lib/db";
+import { numberSchema } from "../../lib/zod-schemas";
+import { ItemIdParam } from "../../types/items";
+import { ResBody } from "../../types/util";
+import { CreateItemData } from "../schemas";
+
 
 const updateItemHandler: RequestHandler<
   ItemIdParam,

@@ -1,8 +1,8 @@
 import { Customer, Prisma } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { ResBody } from "../types/util";
-import { GetPaginatedCustomersParamsSchema } from "./schemas";
+import db from "../../lib/db";
+import { ResBody } from "../../types/util";
+import { GetPaginatedCustomersParamsSchema } from "../schemas";
 
 export const getPaginatedCustomersHandler: RequestHandler<
   unknown,

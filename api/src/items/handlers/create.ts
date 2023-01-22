@@ -1,8 +1,8 @@
 import { Item } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { ResBody } from "../types/util";
-import { CreateItemData } from "./schemas";
+import db from "../../lib/db";
+import { ResBody } from "../../types/util";
+import { CreateItemData } from "../schemas";
 
 const createItemHandler: RequestHandler<
   unknown,

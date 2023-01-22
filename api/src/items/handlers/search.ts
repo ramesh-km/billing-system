@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { RequestHandler } from "express";
-import db from "../lib/db";
-import { ItemsSearchData } from "./schemas";
+import db from "../../lib/db";
+import { ItemsSearchData } from "../schemas";
 
 export const searchItemsHandler: RequestHandler<
   unknown,
