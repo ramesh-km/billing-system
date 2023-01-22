@@ -61,6 +61,29 @@ components:
           format: int64
           example: 5
 
+    CreateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 50
+          nullable: true
+        phone:
+          type: string
+          minLength: 9
+          maxLength: 20
+          nullable: true
+        address:
+          type: string
+          minLength: 1
+          maxLength: 100
+          nullable: true
+
     AuthResponse:
       type: object
       properties:
@@ -243,7 +266,8 @@ paths:
     get:
       tags:
         - Items
-      summary: Get an item data
+      summary: Items list in pagination
+      description: Get items list wuing pagination.
       responses:
         default:
           description: Response
@@ -288,6 +312,142 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
+
+  /customers:
+    post:
+      summary: Create customer
+      description: Create a customer
+      tags:
+        - Customers
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomer"
+
+  /customers/{customerId}:
+    deprecated: false
+    parameters:
+      - in: path
+        name: itemId
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Numeric id of the item to get
+
+    get:
+      deprecated: false
+      summary: Get customer data
+      tags:
+        - Customers
+      description: Get customer data
+      responses:
+        content:
+          application/json:
+            schema:
+              type: object
+    delete:
+      deprecated: false
+      summary: Delete customer
+      tags:
+        - Customers
+      description: Deletes a customer
+      responses:
+        content:
+          application/json:
+            schema:
+              type: object
+
+    put:
+      deprecated: false
+      summary: Update customer data
+      description: Update customer data
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomer"
+
+  /customers/search:
+    deprecated: false
+    parameters:
+      - in: query
+        name: query
+        schema:
+          type: string
+          minimum: 1
+        required: false
+        description: Text to search in customers
+    get:
+      tags:
+        - Customers
+      summary: Search customers
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /customers/paginated:
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 0
+      - in: query
+        name: size
+        schema:
+          type: integer
+          default: 15
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            [
+              "name",
+              "email",
+              "phone",
+              "address",
+              "createdAt",
+              "updatedAt",
+              "deletedAt",
+            ]
+          nullable: true
+          default: "updatedAt"
+      - in: query
+        name: sortDirection
+        schema:
+          type: string
+          enum: ["asc", "desc"]
+          nullable: true
+          default: "desc"
+      - in: query
+        name: search
+        schema:
+          type: string
+          minLength: 1
+          nullable: true
+    get:
+      deprecated: false
+      summary: Customers list in pagination
+      description: Get customers list with pagination.
+      tags:
+        - Customers
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
 
   /auth/sign-up:
     post:
