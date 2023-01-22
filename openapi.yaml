@@ -3,6 +3,7 @@ info:
   title: Billing System API
   description: Generic Billing System API
   version: 1.0.0
+  summary: Billing System API
 
 servers:
   - url: http://localhost:8080/api/v1
@@ -87,9 +88,18 @@ components:
                 type: string
               example: ["create:order", "update:item"]
 
+tags:
+  - name: Items
+    description: Items(products) in inventory.
+  - name: Authentication
+  - name: Customers
+  - name: Orders
+
 paths:
   /items:
     post:
+      tags:
+        - Items
       summary: Create an item (product)
       description: Create an item (product) in the stock
       requestBody:
@@ -105,8 +115,147 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorData"
 
+  /items/{itemId}:
+    deprecated: false
+    parameters:
+      - in: path
+        name: itemId
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Numeric id of the item to get
+    put:
+      tags:
+        - Items
+      deprecated: false
+      summary: Update an item (product)
+      description: Update an item (product) in the stock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateItem"
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+    get:
+      tags:
+        - Items
+      summary: Get item data
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+        - Items
+      summary: Delete an item
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /items/search:
+    deprecated: false
+    parameters:
+      - in: query
+        name: query
+        schema:
+          type: string
+          minimum: 1
+        required: false
+        description: Text to search in items
+    get:
+      tags:
+        - Items
+      summary: Search items
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /items/paginated:
+    summary: Get items with pagination
+    deprecated: false
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          minimum: 0
+        required: true
+        default: 0
+        description: page number
+      - in: query
+        name: size
+        schema:
+          type: number
+          minimum: 1
+        required: true
+        default: 10
+        description: no of items to display in a page
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            [
+              "price",
+              "createdAt",
+              "updatedAt",
+              "deletedAt",
+              "description",
+              "availableQuantity",
+              "allowedMinQuantity",
+              "allowedMaxQuantity",
+            ]
+        required: false
+        default: "updatedAt"
+        description: page number
+      - in: query
+        name: sortDirection
+        schema:
+          type: string
+          enum: ["asc", "desc"]
+          required: false
+          default: "desc"
+      - in: query
+        name: search
+        schema:
+          type: string
+          minimum: 1
+          required: false
+
+    get:
+      tags:
+        - Items
+      summary: Get an item data
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+
   /auth/sign-in:
     post:
+      tags:
+        - Authentication
       deprecated: false
       summary: Sign In
       description: Sign in to app
@@ -142,6 +291,8 @@ paths:
 
   /auth/sign-up:
     post:
+      tags:
+        - Authentication
       deprecated: false
       summary: Sign In
       description: Sign in to app
