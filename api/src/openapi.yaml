@@ -136,8 +136,11 @@ tags:
   - name: Items
     description: Items(products) in inventory.
   - name: Authentication
+    description: Sign in and Sign up
   - name: Customers
+    description: Customers
   - name: Orders
+    description: Oreders(Invoices, Bills)
 
 paths:
   /items:
@@ -346,6 +349,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateCustomer"
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
 
   /customers/{customerId}:
     deprecated: false
@@ -523,6 +533,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateOrder"
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
 
   /orders/{orderId}:
     parameters:
@@ -578,6 +595,45 @@ paths:
             application/json:
               schema:
                 type: object # Use $ref and add actual response schema
+
+  /orders/paginated:
+    get:
+      deprecated: false
+      summary: Get orders in pagination
+      tags:
+        - Orders
+      parameters:
+        - in: query
+          name: cursor
+          schema:
+            type: integer
+            nullable: true
+        - in: query
+          name: size
+          schema:
+            type: integer
+            min: 1
+            required: true
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            enum: ["name", "updatedAt", "total", "no_of_items"]
+        - in: query
+          name: sortDirection
+          schema:
+            type: string
+            enum: ["asc", "desc"]
+        - in: query
+          name: search
+          schema:
+            type: string
+            nullable: true
+            minLength: 1
+      responses:
+        application/json:
+          schema:
+            type: object
 
   # /orders/search:
   #   parameters:
