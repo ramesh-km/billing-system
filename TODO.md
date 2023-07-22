@@ -4,4 +4,4 @@
 4. Add loading indicator to the search-field
 5. Make and add logo to the application
 6. Add light/dark theme to the app
-7. 
+7. npx prisma db push
